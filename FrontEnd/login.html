@@ -11,8 +11,7 @@
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
-    rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
@@ -26,6 +25,41 @@
 </head>
 
 <body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('loginForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const username = e.target.username.value;
+                const password = e.target.password.value;
+                try {
+                    const response = await fetch('/login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username, password }),
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        alert('Đăng nhập thành công!');
+                        // Lưu token vào localStorage
+                        localStorage.setItem('token', data.token);
+                        // Chuyển hướng đến trang chính hoặc trang khác
+                        window.location.href = './index.html';
+                    } else {
+                        alert(data.message);
+                    }
+                } catch (error) {
+                    console.error('Đã có lỗi xảy ra:', error);
+                    alert('Lỗi đăng nhập. Vui lòng thử lại.');
+                }
+            });
+        });
+    </script>
+
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -82,7 +116,7 @@
                 <div class="col-lg-12 text-center">
                     <div class="normal__breadcrumb__text">
                         <h2>Login</h2>
-                        <p>Welcome to the official Anime blog.</p>
+                        <p>Welcome to the official Anime blog.</p>
                     </div>
                 </div>
             </div>
@@ -97,13 +131,13 @@
                 <div class="col-lg-6">
                     <div class="login__form">
                         <h3>Login</h3>
-                        <form action="#">
+                        <form id="loginForm" action="#">
                             <div class="input__item">
-                                <input type="text" placeholder="Email address">
+                                <input type="text" name="username" placeholder="Email address" required>
                                 <span class="icon_mail"></span>
                             </div>
                             <div class="input__item">
-                                <input type="text" placeholder="Password">
+                                <input type="password" name="password" placeholder="Password" required>
                                 <span class="icon_lock"></span>
                             </div>
                             <button type="submit" class="site-btn">Login Now</button>
@@ -113,8 +147,8 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="login__register">
-                        <h3>Dont’t Have An Account?</h3>
-                        <a href="#" class="primary-btn">Register Now</a>
+                        <h3>Don’t Have An Account?</h3>
+                        <a href="./signup.html" class="primary-btn">Register Now</a>
                     </div>
                 </div>
             </div>
@@ -124,11 +158,9 @@
                         <div class="login__social__links">
                             <span>or</span>
                             <ul>
-                                <li><a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With
-                                Facebook</a></li>
+                                <li><a href="#" class="facebook"><i class="fa fa-facebook"></i> Sign in With Facebook</a></li>
                                 <li><a href="#" class="google"><i class="fa fa-google"></i> Sign in With Google</a></li>
-                                <li><a href="#" class="twitter"><i class="fa fa-twitter"></i> Sign in With Twitter</a>
-                                </li>
+                                <li><a href="#" class="twitter"><i class="fa fa-twitter"></i> Sign in With Twitter</a></li>
                             </ul>
                         </div>
                     </div>
@@ -161,18 +193,17 @@
                     </div>
                 </div>
                 <div class="col-lg-3">
-                    <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                      Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                      <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                    <p>
+                      Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="" target=""></a>
+                      </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Section End -->
 
-                  </div>
-              </div>
-          </div>
-      </footer>
-      <!-- Footer Section End -->
-
-      <!-- Search model Begin -->
-      <div class="search-model">
+    <!-- Search model Begin -->
+    <div class="search-model">
         <div class="h-100 d-flex align-items-center justify-content-center">
             <div class="search-close-switch"><i class="icon_close"></i></div>
             <form class="search-model-form">
@@ -185,14 +216,11 @@
     <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script src="js/player.js"></script>
     <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/jquery.plyr.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
+    <script src="js/slicknav.min.js"></script>
     <script src="js/main.js"></script>
-
-
 </body>
 
 </html>

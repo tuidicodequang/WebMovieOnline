@@ -1,11 +1,14 @@
 // config/db.js
 const mysql = require('mysql2');
+const dotenv=require('dotenv');
 
+
+dotenv.config({path:'./.env'})
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'Tpta1401',
-    database: 'web_movie_online',
+    host:process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
+    password:process.env.DATABASE_PASSWORD,
+    database: process.env.DATABASE,
     insecureAuth : true
 });
 
