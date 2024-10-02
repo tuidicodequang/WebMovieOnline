@@ -5,8 +5,12 @@ const errorHandler = require('./middlewares/errorMiddleware');
 const authMiddleware = require('./middlewares/authMiddleware');
 const mysql = require('mysql2');
 const path = require('path');
+const session = require('express-session');
+const flash = require('connect-flash'); 
+
 // Khởi tạo ứng dụng
 const app = express();
+
 
 // Sử dụng bodyParser để phân tích dữ liệu JSON
 app.use(bodyParser.json());
@@ -17,6 +21,21 @@ app.use(logger);
 // Kết nối đến cơ sở dữ liệu
 require('./config/db');
 
+// Cấu hình session và flash
+app.use(session({
+    secret: 'your_secret_key', // Thay đổi secret key
+    resave: false,
+    saveUninitialized: true
+}));
+
+
+app.use(flash());
+
+// Middleware để truyền thông điệp flash vào các template
+app.use((req, res, next) => {
+    res.locals.messages = req.flash();
+    next();
+});
 app.use(express.static(path.join(__dirname, 'FrontEnd')));
 // Route chính để kiểm tra server
 app.use(express.json()); // Để xử lý các yêu cầu với dữ liệu JSON

@@ -377,7 +377,7 @@ ol {
 	left: 0;
 	top: 82px;
 	width: 150px;
-	background: #ffffff;
+	background: #070720;
 	text-align: left;
 	padding: 5px 0;
 	z-index: 9;
@@ -395,7 +395,7 @@ ol {
 
 .header__menu ul li .dropdown li a {
 	font-size: 14px;
-	color: #111111;
+	color: #f1ecec;
 	font-weight: 500;
 	padding: 5px 20px;
 }
@@ -2339,4 +2339,42 @@ ol {
 	.anime__review__item__text {
 		padding: 18px 20px 20px;
 	}
+}
+
+.user-menu {
+	position: relative;
+	display: inline-block;
+}
+
+.user-button {
+	color: #ffffff;
+	font-size: 16px;
+	cursor: pointer;
+	padding: 5px 10px;
+}
+
+.dropdown-menu {
+	position: absolute;
+	min-width: 160px;
+	background: #070720;
+	text-align: left;
+	z-index: 9;
+	-webkit-transition: all, 0.3s;
+	-o-transition: all, 0.3s;
+	transition: all, 0.3s;
+	}
+
+.dropdown-menu a {
+	font-size: 14px;
+	color: #f1ecec;
+	font-weight: 500;
+	padding: 5px 20px;
+}
+
+.dropdown-menu a:hover {
+	background-color: #1d1e39;
+}
+
+.user-menu:hover .dropdown-menu {
+	display: block;
 }

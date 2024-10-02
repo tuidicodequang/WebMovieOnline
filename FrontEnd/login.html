@@ -25,41 +25,6 @@
 </head>
 
 <body>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('loginForm').addEventListener('submit', async (e) => {
-                e.preventDefault();
-
-                const username = e.target.username.value;
-                const password = e.target.password.value;
-                try {
-                    const response = await fetch('/login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ username, password }),
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        alert('Đăng nhập thành công!');
-                        // Lưu token vào localStorage
-                        localStorage.setItem('token', data.token);
-                        // Chuyển hướng đến trang chính hoặc trang khác
-                        window.location.href = './index.html';
-                    } else {
-                        alert(data.message);
-                    }
-                } catch (error) {
-                    console.error('Đã có lỗi xảy ra:', error);
-                    alert('Lỗi đăng nhập. Vui lòng thử lại.');
-                }
-            });
-        });
-    </script>
-
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -131,7 +96,7 @@
                 <div class="col-lg-6">
                     <div class="login__form">
                         <h3>Login</h3>
-                        <form id="loginForm" action="#">
+                        <form id="loginForm" name="login__form">
                             <div class="input__item">
                                 <input type="text" name="username" placeholder="Email address" required>
                                 <span class="icon_mail"></span>
@@ -142,6 +107,38 @@
                             </div>
                             <button type="submit" class="site-btn">Login Now</button>
                         </form>
+                        
+                        <script>
+                            document.getElementById('loginForm').addEventListener('submit', function(event) {
+                                event.preventDefault(); // Ngăn chặn hành vi mặc định của form
+                        
+                                const username = this.username.value;
+                                const password = this.password.value;
+                        
+                                // Gửi yêu cầu đăng nhập
+                                fetch('/users/login', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ username, password })
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                     if (data.token) {
+                                        localStorage.setItem('token', data.token);
+                                      // Nếu có thể, lưu thêm username
+                                        localStorage.setItem('username', username);
+                                        window.location.href = '/index.html';
+                                    } 
+                                     else {
+                                        alert('Đăng nhập không thành công: ' + data.message);
+                                    }
+})
+                                .catch(error => console.error('Error:', error));
+                            });
+                        </script>
+                        
                         <a href="#" class="forget_pass">Forgot Your Password?</a>
                     </div>
                 </div>

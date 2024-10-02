@@ -8,14 +8,27 @@ require('dotenv').config();
 // Đăng ký người dùng
 exports.register = (req, res) => {
     const { username, password, name } = req.body;
-    if (!username || !password || !name) return res.status(400).json({ error: 'Username and password are required' });
-  //  const hashedPassword = bcrypt.hashSync(password, 10);
-  db.query('INSERT INTO Users (username, password, role, detail) VALUES (?, ?, ?, ?)', [username, password, 'user', name], (err, result) => {
-    if (err) return res.status(500).json({ error: 'Error registering user', details: err.message });
-    res.status(201).json({ message: 'User created successfully!' });
-});
 
+    // Kiểm tra các trường bắt buộc
+    if (!username || !password || !name) {
+        return res.status(400).json({ mess: 'Username, password, and name are required' });
+    }
+
+    // Mã hóa mật khẩu
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    
+    // Thực hiện truy vấn để thêm người dùng vào cơ sở dữ liệu
+    db.query('INSERT INTO Users (username, password, role, detail) VALUES (?, ?, ?, ?)', [username, hashedPassword, 'user', name], (err, result) => {
+        if (err) {
+            return res.status(401).json({ mess: 'Error registering user', details: err.message });
+        }
+
+        // Trả về phản hồi thành công
+        return res.status(401).json({ mess: 'Tạo tài khoản thành công' });
+    });
 };
+
+
 
 // Đăng nhập
 exports.login = (req, res) => {
@@ -26,11 +39,16 @@ exports.login = (req, res) => {
         if (err || results.length === 0) return res.status(401).json({ message: 'Authentication failed' });
 
         const user = results[0];
-        const passwordValid = bcrypt.compareSync(password, user.password);
+         const passwordValid = bcrypt.compareSync(password, user.password);
 
-        if (!passwordValid) return res.status(401).json({ message: 'Authentication failed' });
+        if (!passwordValid ) return res.status(401).json({ message: 'Authentication failed' });
+        // tạo token
+        const token = jwt.sign({ id: user.id, role: user.role, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        
+        // Gửi token về client
         res.status(200).json({ token });
+       // return res.redirect("/index.html")
     });
 };
+
