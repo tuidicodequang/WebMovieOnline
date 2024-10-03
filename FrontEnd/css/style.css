@@ -416,21 +416,27 @@ ol {
 	font-size: 17px;
 	top: 2px;
 }
-
 .header__right {
-	text-align: right;
-	padding: 20px 0 15px;
+    display: flex; /* Sử dụng flexbox để căn chỉnh các phần tử */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: flex-end; /* Căn sang bên phải */
+    padding: 20px 0 15px;
 }
 
 .header__right a {
-	display: inline-block;
-	font-size: 18px;
-	color: #ffffff;
-	margin-right: 30px;
+    display: inline-block;
+    font-size: 18px;
+    color: #ffffff;
+    margin-right: 30px; /* Khoảng cách giữa các liên kết */
 }
 
 .header__right a:last-child {
-	margin-right: 0;
+    margin-right: 0; /* Không có khoảng cách cho liên kết cuối cùng */
+}
+
+/* Để tạo khoảng cách giữa biểu tượng tìm kiếm và tên người dùng */
+.header__right .search-switch {
+    margin-right: 15px; /* Khoảng cách bên phải biểu tượng tìm kiếm */
 }
 
 .slicknav_menu {
@@ -2352,29 +2358,57 @@ ol {
 	cursor: pointer;
 	padding: 5px 10px;
 }
-
 .dropdown-menu {
-	position: absolute;
-	min-width: 160px;
-	background: #070720;
-	text-align: left;
-	z-index: 9;
-	-webkit-transition: all, 0.3s;
-	-o-transition: all, 0.3s;
-	transition: all, 0.3s;
-	}
+    position: absolute;
+    min-width: 160px;
+    background: #070720;
+    text-align: left;
+    z-index: 9;
+    display: none; 
+    margin-top: 5px; 
+    transition: all 0.3s ease; 
+}
 
 .dropdown-menu a {
-	font-size: 14px;
-	color: #f1ecec;
-	font-weight: 500;
-	padding: 5px 20px;
+    font-size: 14px;
+    color: #f1ecec;
+    font-weight: 500;
+    padding: 6px 20px;
 }
 
 .dropdown-menu a:hover {
-	background-color: #1d1e39;
+    background-color: #1d1e39;
 }
+
 
 .user-menu:hover .dropdown-menu {
 	display: block;
+}
+
+
+
+.modal {
+	display: none;
+	position: fixed;
+	z-index: 1000;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+	background-color: #fefefe;
+	margin: 15% auto;
+	padding: 20px;
+	border: 1px solid #888;
+	width: 80%;
+	max-width: 400px;
+	text-align: center;
+}
+
+.error-message {
+	color: red;
+	margin-top: 5px;
 }

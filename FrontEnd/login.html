@@ -109,34 +109,44 @@
                         </form>
                         
                         <script>
-                            document.getElementById('loginForm').addEventListener('submit', function(event) {
-                                event.preventDefault(); // Ngăn chặn hành vi mặc định của form
-                        
-                                const username = this.username.value;
-                                const password = this.password.value;
-                        
-                                // Gửi yêu cầu đăng nhập
-                                fetch('/users/login', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({ username, password })
-                                })
-                                .then(response => response.json())
-                                .then(data => {
-                                     if (data.token) {
-                                        localStorage.setItem('token', data.token);
-                                      // Nếu có thể, lưu thêm username
-                                        localStorage.setItem('username', username);
-                                        window.location.href = '/index.html';
-                                    } 
-                                     else {
-                                        alert('Đăng nhập không thành công: ' + data.message);
-                                    }
-})
-                                .catch(error => console.error('Error:', error));
-                            });
+                          document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Ngăn chặn hành vi mặc định của form
+
+    const username = this.username.value;
+    const password = this.password.value;
+
+    // Gửi yêu cầu đăng nhập
+    fetch('/users/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.token) {
+            // Lưu token vào localStorage
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('username', username);
+
+            // Giải mã token để lấy thông tin role (nếu có)
+            const tokenPayload = JSON.parse(atob(data.token.split('.')[1]));
+            const userRole = tokenPayload.role; // Lấy role từ payload của token
+
+            // Điều hướng dựa trên role
+            if (userRole === 'admin') {
+                window.location.href = '/admin/Dashboard.html'; // Điều hướng đến trang admin
+            } else {
+                window.location.href = '/index.html'; // Điều hướng đến trang user
+            }
+        } else {
+            alert('Đăng nhập không thành công: ' + data.message);
+        }
+    })
+    .catch(error => console.error('Error:', error));
+});
+
                         </script>
                         
                         <a href="#" class="forget_pass">Forgot Your Password?</a>

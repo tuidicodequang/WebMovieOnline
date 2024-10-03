@@ -97,7 +97,7 @@
                 <div class="col-lg-6">
                     <div class="login__form">
                         <h3>Sign Up</h3>
-                        <form action="/users/register" method="POST" name="registerForm">
+                        <form id="registerForm" name="registerForm">
                             <div class="input__item">
                                 <input type="text" name="username" placeholder="Email address" required>
                                 <span class="icon_mail"></span>
@@ -118,8 +118,20 @@
                                 <span class="icon_lock"></span>
                             </div>
                         
+                            <!-- Thêm div để hiển thị thông báo lỗi -->
+                            <div id="errorMessage" class="error-message" style="display: none; color: red; margin-bottom: 10px;"></div>
+                        
                             <button type="submit" class="site-btn">Register Now</button>
                         </form>
+                        
+                        <!-- Modal thông báo -->
+                        <div id="successModal" class="modal" style="display: none;">
+                            <div class="modal-content">
+                                <h2>Đăng ký thành công!</h2>
+                                <p>Bạn có muốn chuyển sang trang đăng nhập?</p>
+                                <button id="loginNowBtn" class="site-btn">Login Now</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-6">
