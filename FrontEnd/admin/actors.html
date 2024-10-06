@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Diễn viên</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar">
+                <h2 class="text-center py-3">Admin Dashboard</h2>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link" href="actors.html">Quản lý diễn viên</a></li>
+                    <li class="nav-item"><a class="nav-link" href="movies.html">Quản lý phim</a></li>
+                    <li class="nav-item"><a class="nav-link" href="categories.html">Quản lý thể loại</a></li>
+                    <li class="nav-item"><a class="nav-link" href="users.html">Quản lý người dùng</a></li>
+                    <li class="nav-item"><a class="nav-link" href="reviews.html">Quản lý đánh giá</a></li>
+                </ul>
+            </nav>
+
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Quản lý Diễn viên</h1>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-sm">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên diễn viên</th>
+                                <th>Ngày sinh</th>
+                                <th>Tiểu sử</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="actors-list">
+                            <!-- Danh sách diễn viên sẽ được load ở đây -->
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // Gọi API để lấy danh sách diễn viên khi load trang
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();  // Xác thực người dùng
+            getActors();  // Lấy danh sách diễn viên
+        });
+    </script>
+</body>
+</html>

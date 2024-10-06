@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Categories</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="sidebar">
+            <h2>Movie Dashboard</h2>
+            <a href="Dashboard.html">Dashboard</a>
+            <a href="movies.html">Movies</a>
+            <a href="categories.html" class="active">Categories</a>
+            <a href="users.html">Users</a>
+            <a href="reviews.html">Reviews</a>
+            <a href="settings.html">Settings</a>
+        </div>
+
+        <div class="main">
+            <div class="header">
+                <h1>Manage Categories</h1>
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+
+            <div class="products">
+                <h3>Category List</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Number of Movies</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Action</td>
+                            <td>15</td>
+                            <td><button>Edit</button> <button>Delete</button></td>
+                        </tr>
+                        <!-- Add more category rows here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="add-category">
+                <h3>Add New Category</h3>
+                <form>
+                    <input type="text" placeholder="Category Name" required>
+                    <button type="submit">Add Category</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

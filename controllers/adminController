@@ -98,11 +98,26 @@ exports.deleteCategory = (req, res) => {
 
 // Quản lý người dùng
 
-// Lấy danh sách người dùng
 exports.getUsers = (req, res) => {
     db.query('SELECT * FROM Users', (err, results) => {
-        if (err) return res.status(500).json({ error: err });
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).json({ error: err });
+        }
+        console.log('Users data:', results); // Thêm log này
         res.status(200).json(results);
+    });
+};
+// Cập nhật thông tin người dùng
+exports.updateUser = (req, res) => {
+    const { id } = req.params; // Lấy id từ tham số
+    const { username, email, role, status } = req.body; // Giả sử bạn muốn cập nhật những trường này
+
+    // Câu truy vấn để cập nhật thông tin người dùng
+    db.query('UPDATE Users SET username = ?, email = ?, role = ?, status = ? WHERE id = ?', [username, email, role, status, id], (err, result) => {
+        if (err) return res.status(500).json({ error: err });
+        if (result.affectedRows === 0) return res.status(404).json({ error: 'User not found' });
+        res.status(200).json({ message: 'User updated successfully!' });
     });
 };
 

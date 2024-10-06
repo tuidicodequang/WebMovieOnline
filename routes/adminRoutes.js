@@ -22,6 +22,7 @@ router.delete('/categories/:id', authenticateToken, authorizeRoles('admin'), adm
 // Quản lý người dùng
 router.get('/users', authenticateToken, authorizeRoles('admin'), adminController.getUsers);
 router.delete('/users/:id', authenticateToken, authorizeRoles('admin'), adminController.deleteUser);
+router.post('/users/:id', authenticateToken, authorizeRoles('admin'), adminController.updateUser);
 
 // Quản lý đánh giá
 router.get('/reviews', authenticateToken, authorizeRoles('admin'), adminController.getReviews);

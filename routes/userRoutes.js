@@ -9,3 +9,6 @@ router.post('/register', userController.register);
 router.post('/login', userController.login);
 
 module.exports = router;
+
+// load thông tin người dùng
+router.get('/', userController.getUsers);

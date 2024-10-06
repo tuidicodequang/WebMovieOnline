@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Movies</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="sidebar">
+            <h2>Movie Dashboard</h2>
+            <a href="Dashboard.html">Dashboard</a>
+            <a href="movies.html" class="active">Movies</a>
+            <a href="categories.html">Categories</a>
+            <a href="users.html">Users</a>
+            <a href="reviews.html">Reviews</a>
+            <a href="settings.html">Settings</a>
+        </div>
+
+        <div class="main">
+            <div class="header">
+                <h1>Manage Movies</h1>
+                <img src="https://via.placeholder.com/40" alt="User Avatar">
+            </div>
+
+            <div class="products">
+                <h3>Movie List</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Movie</th>
+                            <th>Category</th>
+                            <th>Views</th>
+                            <th>Rating</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Avengers: Endgame</td>
+                            <td>Action</td>
+                            <td>1,500,000</td>
+                            <td>9.5</td>
+                            <td><button>Edit</button> <button>Delete</button></td>
+                        </tr>
+                        <!-- Add more movie rows here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="add-movie">
+                <h3>Add New Movie</h3>
+                <form>
+                    <input type="text" placeholder="Movie Title" required>
+                    <input type="text" placeholder="Category" required>
+                    <input type="number" placeholder="Views" required>
+                    <input type="number" placeholder="Rating" step="0.1" required>
+                    <button type="submit">Add Movie</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
