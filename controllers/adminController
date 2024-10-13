@@ -1,152 +1,30 @@
-const Actor = require('../models/Actor');
-const Movie = require('../models/Movie');
-const Category = require('../models/Category');
-const User = require('../models/User');
-const Review = require('../models/Review');
+const actorsController = require('./actorController');
+const moviesController = require('./movieController');
+const categoriesController = require('./categoryController');
+const usersController = require('./userController');
+const reviewsController = require('./reviewController');
 const db = require('../config/db');
 
-// Quản lý diễn viên
+//quản lý diễn viên
+exports.getActors = actorsController.getActors;
+exports.createActor = actorsController.createActor;
+exports.deleteActor = actorsController.deleteActor;
 
-// Lấy danh sách diễn viên
-exports.getActors = (req, res) => {
-    db.query('SELECT * FROM Actors', (err, results) => {
-        if (err) return res.status(500).json({ error: err });
-        res.status(200).json(results);
-    });
-};
+// quản lý movies
+exports.getMovies = moviesController.getMovies;
+exports.createMovie = moviesController.createMovie;
+exports.deleteMovie = moviesController.deleteMovie;
 
-// Thêm diễn viên mới
-exports.createActor = (req, res) => {
-    const { name } = req.body;
+// quản lý thể loại
+exports.getCategories = categoriesController.getCategories;
+exports.createCategory = categoriesController.createCategory;
+exports.deleteCategory = categoriesController.deleteCategory;
 
-    db.query('INSERT INTO Actors (name) VALUES (?)', [name], (err, result) => {
-        if (err) return res.status(500).json({ error: err });
-        res.status(201).json({ message: 'Actor created successfully!' });
-    });
-};
+// quản lý người dùng
+exports.getUsers = usersController.getUsers;
+exports.updateUser = usersController.updateUser;
+exports.deleteUser = usersController.deleteUser;
 
-// Xóa diễn viên
-exports.deleteActor = (req, res) => {
-    const { id } = req.params;
-
-    db.query('DELETE FROM Actors WHERE id = ?', [id], (err, result) => {
-        if (err) return res.status(500).json({ error: err });
-        res.status(200).json({ message: 'Actor deleted successfully!' });
-    });
-};
-
-// Quản lý phim
-
-// Lấy danh sách phim
-exports.getMovies = (req, res) => {
-    db.query('SELECT * FROM Movies', (err, results) => {
-        if (err) return res.status(500).json({ error: err });
-        res.status(200).json(results);
-    });
-};
-
-// Thêm phim mới
-exports.createMovie = (req, res) => {
-    const { title, release_date, description, poster, video_url } = req.body;
-
-    db.query('INSERT INTO Movies (title, release_date, description, poster, video_url) VALUES (?, ?, ?, ?, ?)',
-        [title, release_date, description, poster, video_url], (err, result) => {
-            if (err) return res.status(500).json({ error: err });
-            res.status(201).json({ message: 'Movie created successfully!' });
-        });
-};
-
-// Xóa phim
-exports.deleteMovie = (req, res) => {
-    const { id } = req.params;
-
-    db.query('DELETE FROM Movies WHERE id = ?', [id], (err, result) => {
-        if (err) return res.status(500).json({ error: err });
-        res.status(200).json({ message: 'Movie deleted successfully!' });
-    });
-};
-
-// Quản lý thể loại
-
-// Lấy danh sách thể loại
-exports.getCategories = (req, res) => {
-    db.query('SELECT * FROM Categories', (err, results) => {
-        if (err) return res.status(500).json({ error: err });
-        res.status(200).json(results);
-    });
-};
-
-// Thêm thể loại mới
-exports.createCategory = (req, res) => {
-    const { name } = req.body;
-
-    db.query('INSERT INTO Categories (name) VALUES (?)', [name], (err, result) => {
-        if (err) return res.status(500).json({ error: err });
-        res.status(201).json({ message: 'Category created successfully!' });
-    });
-};
-
-// Xóa thể loại
-exports.deleteCategory = (req, res) => {
-    const { id } = req.params;
-
-    db.query('DELETE FROM Categories WHERE id = ?', [id], (err, result) => {
-        if (err) return res.status(500).json({ error: err });
-        res.status(200).json({ message: 'Category deleted successfully!' });
-    });
-};
-
-// Quản lý người dùng
-
-exports.getUsers = (req, res) => {
-    db.query('SELECT * FROM Users', (err, results) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).json({ error: err });
-        }
-        console.log('Users data:', results); // Thêm log này
-        res.status(200).json(results);
-    });
-};
-// Cập nhật thông tin người dùng
-exports.updateUser = (req, res) => {
-    const { id } = req.params; // Lấy id từ tham số
-    const { username, email, role, status } = req.body; // Giả sử bạn muốn cập nhật những trường này
-
-    // Câu truy vấn để cập nhật thông tin người dùng
-    db.query('UPDATE Users SET username = ?, email = ?, role = ?, status = ? WHERE id = ?', [username, email, role, status, id], (err, result) => {
-        if (err) return res.status(500).json({ error: err });
-        if (result.affectedRows === 0) return res.status(404).json({ error: 'User not found' });
-        res.status(200).json({ message: 'User updated successfully!' });
-    });
-};
-
-// Xóa người dùng
-exports.deleteUser = (req, res) => {
-    const { id } = req.params;
-
-    db.query('DELETE FROM Users WHERE id = ?', [id], (err, result) => {
-        if (err) return res.status(500).json({ error: err });
-        res.status(200).json({ message: 'User deleted successfully!' });
-    });
-};
-
-// Quản lý đánh giá
-
-// Lấy danh sách đánh giá
-exports.getReviews = (req, res) => {
-    db.query('SELECT * FROM Reviews', (err, results) => {
-        if (err) return res.status(500).json({ error: err });
-        res.status(200).json(results);
-    });
-};
-
-// Xóa đánh giá
-exports.deleteReview = (req, res) => {
-    const { id } = req.params;
-
-    db.query('DELETE FROM Reviews WHERE id = ?', [id], (err, result) => {
-        if (err) return res.status(500).json({ error: err });
-        res.status(200).json({ message: 'Review deleted successfully!' });
-    });
-};
+// quản lý đánh giá
+exports.getReviews = reviewsController.getReviews;
+exports.deleteReview = reviewsController.deleteReview;

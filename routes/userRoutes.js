@@ -8,7 +8,14 @@ router.post('/register', userController.register);
 // Đăng nhập
 router.post('/login', userController.login);
 
+// load thông tin người dùng
+router.get('/loaduser', userController.getUsers);
+
 module.exports = router;
 
-// load thông tin người dùng
-router.get('/', userController.getUsers);
+
+
+// // Thêm các route cho quản lý người dùng trong admin
+// router.post('/admin/add', userController.addUser); // Thêm người dùng
+// router.put('/admin/:id', userController.updateUser); // Cập nhật người dùng
+// router.delete('/admin/:id', userController.deleteUser); // Xóa người dùng

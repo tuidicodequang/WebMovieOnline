@@ -89,7 +89,7 @@ exports.login = (req, res) => {
 
 //Lấy thông tin người dùng
 exports.getUsers = (req, res) => {
-    db.query('SELECT username, email, role, status FROM Users', (err, results) => {
+    db.query('SELECT user_id, username, role, detail FROM Users', (err, results) => {
         if (err) return res.status(500).json({ error: 'Error fetching users' });
         res.status(200).json(results);
     });

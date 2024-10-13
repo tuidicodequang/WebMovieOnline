@@ -24,39 +24,30 @@
                 <h1>Manage Users</h1>
                 <img src="https://via.placeholder.com/40" alt="User Avatar">
             </div>
-
             <div class="products">
                 <h3>User List</h3>
                 <table>
                     <thead>
                         <tr>
+                             <th>id</th>
                             <th>Username</th>
-                            <th>Email</th>
                             <th>Role</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>detail</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>john_doe</td>
-                            <td>john@example.com</td>
-                            <td>Admin</td>
-                            <td>Active</td>
-                            <td><button>Edit</button> <button>Delete</button></td>
-                        </tr>
-                        <!-- Add more user rows here -->
+                    <tbody id="user-list">
+                        <!-- User rows will be dynamically inserted here -->
                     </tbody>
                 </table>
             </div>
 
             <div class="add-user">
                 <h3>Add New User</h3>
-                <form>
-                    <input type="text" placeholder="Username" required>
-                    <input type="email" placeholder="Email" required>
-                    <input type="password" placeholder="Password" required>
-                    <select>
+                <form id="add-user-form">
+                    <input type="text" id="username" placeholder="Username" required>
+                    <input type="email" id="email" placeholder="Email" required>
+                    <input type="password" id="password" placeholder="Password" required>
+                    <select id="role">
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
                     </select>
@@ -66,5 +57,20 @@
         </div>
     </div>
 
+    <script src="jsAdmin.js"></script>
+    <script>
+          
+        document.addEventListener('DOMContentLoaded', () => {
+          console.log('DOM đã sẵn sàng');
+          if (typeof loadUsers === 'function') {
+            console.log('Hàm loadUsers tồn tại');
+            loadUsers();
+          } else {
+            console.error('Hàm loadUsers không tồn tại');
+          }
+        });
+        </script>
+                
+    
 </body>
 </html>
