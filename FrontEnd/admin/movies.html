@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Movies</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="adminStyleCss/styles.css">
 </head>
 <body>
 
@@ -27,44 +27,37 @@
             </div>
 
             <div class="products">
-                <h3>Movie List</h3>
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm phim..." onkeyup="searchMovies()" style="margin-right: 10px;">
+                    
+                    <select id="categorySelect" onchange="filterByCategory()" style="margin-left: 70%;">
+                        <option value="">Tất cả thể loại</option>
+                        
+                    </select>
+
+                    <button type="button" id="addMovieButton" onclick="window.location.href='Movie_action.html'">
+                        Thêm Phim
+                    </button>
+                </div>
+
                 <table>
                     <thead>
                         <tr>
-                            <th>movie id</th> 
-                            <th>title</th> 
-                            <th>Category</th> 
+                            <th>ID</th> 
+                            <th>Title</th> 
                             <th>Rating</th> 
-                            <th>Release Date</th>
-                            <th>Description</th>
-                            <th>Poster</th>
-                            <th>Video URL</th> 
-                            <th>Movie Length</th> 
-                            <th>Created At</th> 
+                            <th>Movie Length (minutes)</th> 
+                            <th>Category</th> 
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="movies-list">
-                        <tr>
-                           
-                        </tr>
-                        
+                        <!-- Nội dung động từ JavaScript -->
                     </tbody>
                 </table>
             </div>
-
-            <div class="add-movie">
-                <h3>Add New Movie</h3>
-                <form>
-                    <input type="text" placeholder="Movie Title" required>
-                    <input type="text" placeholder="Category" required>
-                    <input type="number" placeholder="Views" required>
-                    <input type="number" placeholder="Rating" step="0.1" required>
-                    <button type="submit">Add Movie</button>
-                </form>
-            </div>
         </div>
     </div>
-
+    <script src="adminjs/jsAdmin.js"></script>
 </body>
 </html>

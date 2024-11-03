@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý Diễn viên & Đạo diễn</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="adminStyleCss/styles.css">
 </head>
 <body>
     <div class="container">
@@ -22,14 +22,16 @@
         <div class="main">
             <div class="header">
                 <h1>Quản lý Diễn viên & Đạo diễn</h1>
-                <img src="/api/placeholder/40/40" alt="User Avatar">
+                <img src="C:\Users\manno\OneDrive\Desktop\WebMovieOnline\FrontEnd\img\avtadmin.png" alt="User Avatar">
             </div>
 
+            <!-- Buttons to toggle between Actor and Director views -->
             <div class="toggle-view">
                 <button id="actorViewBtn" class="active">Diễn viên</button>
                 <button id="directorViewBtn">Đạo diễn</button>
             </div>
 
+            <!-- Actor Management View -->
             <div id="actorView">
                 <div class="products">
                     <h3>Danh sách Diễn viên</h3>
@@ -39,7 +41,6 @@
                                 <th>ID</th>
                                 <th>Tên diễn viên</th>
                                 <th>Ngày sinh</th>
-                                <th>Tiểu sử</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
@@ -53,13 +54,13 @@
                     <h3>Thêm Diễn viên mới</h3>
                     <form id="add-actor-form">
                         <input type="text" id="actorName" placeholder="Tên diễn viên" required>
-                        <input type="date" id="actorBirthday" required>
-                        <textarea id="actorBio" placeholder="Tiểu sử" required></textarea>
+                        <input type="text" id="actordetail" placeholder="Năm sinh" required>
                         <button type="submit">Thêm Diễn viên</button>
                     </form>
                 </div>
             </div>
 
+            <!-- Director Management View -->
             <div id="directorView" style="display: none;">
                 <div class="products">
                     <h3>Danh sách Đạo diễn</h3>
@@ -69,7 +70,6 @@
                                 <th>ID</th>
                                 <th>Tên đạo diễn</th>
                                 <th>Ngày sinh</th>
-                                <th>Tiểu sử</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
@@ -83,13 +83,31 @@
                     <h3>Thêm Đạo diễn mới</h3>
                     <form id="add-director-form">
                         <input type="text" id="directorName" placeholder="Tên đạo diễn" required>
-                        <input type="date" id="directorBirthday" required>
-                        <textarea id="directorBio" placeholder="Tiểu sử" required></textarea>
+                        <input type="text" id="directordetail" placeholder="năm sinh" required>
                         <button type="submit">Thêm Đạo diễn</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script>
+    
+        document.getElementById("actorViewBtn").addEventListener("click", () => {
+            document.getElementById("actorView").style.display = "block";
+            document.getElementById("directorView").style.display = "none";
+            document.getElementById("actorViewBtn").classList.add("active");
+            document.getElementById("directorViewBtn").classList.remove("active");
+        });
+
+        document.getElementById("directorViewBtn").addEventListener("click", () => {
+            document.getElementById("actorView").style.display = "none";
+            document.getElementById("directorView").style.display = "block";
+            document.getElementById("directorViewBtn").classList.add("active");
+            document.getElementById("actorViewBtn").classList.remove("active");
+            loadDirectors();
+        });
+    </script>
+     <script src="adminjs/jsAdmin.js"></script>
 </body>
 </html>

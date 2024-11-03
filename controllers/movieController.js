@@ -37,3 +37,25 @@ exports.createMovie = (req, res) => {
         res.status(201).json({ message: 'Movie created successfully!' });
     });
 };
+
+// Xóa phim
+exports.deleteMovie = (req, res) => {
+    const movieId = req.params.id;
+    console.log(`Yêu cầu xóa phim với ID: ${movieId}`);
+
+    if (!movieId) return res.status(400).json({ error: 'Movie ID is required' });
+
+    db.query('DELETE FROM Movies WHERE movie_id = ?', [movieId], (err, result) => {
+        if (err) {
+            console.error('Error during movie deletion:', err);
+            return res.status(500).json({ error: 'Error deleting movie' });
+        }
+
+        if (result.affectedRows === 0) {
+            console.log(`Không tìm thấy phim với ID: ${movieId}`);
+            return res.status(404).json({ error: 'Movie not found' });
+        }
+
+        res.status(200).json({ message: 'Movie deleted successfully!' });
+    });
+};

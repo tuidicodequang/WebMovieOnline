@@ -8,4 +8,7 @@ router.get('/', movieController.getMovies);
 // Thêm phim mới
 router.post('/', movieController.createMovie);
 
+// Xóa Phim
+router.delete('/:id', movieController.deleteMovie);
+
 module.exports = router;

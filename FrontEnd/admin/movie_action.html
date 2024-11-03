@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Movie</title>
+    <link rel="stylesheet" href="adminStyleCss/stylesMovie_action.css">
+</head>
+<body>
+    <div class="poster-preview" id="posterPreview">
+        <img id="posterImage" src="" alt="Poster Preview">
+    </div>
+    <div class="container">
+        <div class="form-container">
+            <h2>Add Movie</h2>
+            <form action="/add_movie" method="POST">
+                <label for="id">Movie ID</label>
+                <input type="number" id="id" name="id" disabled placeholder="Auto-generated">
+
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title" maxlength="255" required>
+
+                <label for="release_date">Release Date</label>
+                <input type="date" id="release_date" name="release_date">
+
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="5"></textarea>
+
+                <label for="poster">Poster URL</label>
+                <input type="url" id="poster" name="poster" maxlength="255" oninput="updatePosterPreview()">
+
+                <label for="video_url">Video URL</label>
+                <input type="url" id="video_url" name="video_url" maxlength="255">
+
+                <label for="avg_rating">Average Rating</label>
+                <input type="number" id="avg_rating" name="avg_rating" step="0.01" min="0" max="10" value="0.00">
+
+                <label for="movie_length">Movie Length (minutes)</label>
+                <input type="number" id="movie_length" name="movie_length" min="0">
+
+                <label for="created_at">Created At</label>
+                <input type="text" id="created_at" name="created_at" disabled placeholder="Auto-filled with current timestamp">
+
+                <label for="actors">Actors</label>
+                <input type="text" id="actors" name="actors" placeholder="Enter actors separated by commas">
+
+                <label for="directors">Directors</label>
+                <input type="text" id="directors" name="directors" placeholder="Enter directors separated by commas">
+
+                <button type="submit" class="submit-btn">Add Movie</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function updatePosterPreview() {
+       
+            const posterUrl = document.getElementById("poster").value;
+            const posterPreview = document.getElementById("posterPreview");
+            const posterImage = document.getElementById("posterImage");
+            if (posterUrl) {
+                posterImage.src = posterUrl;
+                posterPreview.style.display = "block";
+            } else {
+                posterPreview.style.display = "none";
+                posterImage.src = "";
+            }
+        }
+    </script>
+</body>
+</html>

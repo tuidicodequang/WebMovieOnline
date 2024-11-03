@@ -44,6 +44,8 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'FrontEnd', 'index.html'));
 });
 // Định nghĩa các route (Movies, Categories, Users, Admin...)
+app.use('/actors', authMiddleware, require('./routes/actorRoutes'));
+app.use('/directors', authMiddleware, require('./routes/directorRoutes'));
 app.use('/movies', authMiddleware, require('./routes/movieRoutes'));
 app.use('/categories', authMiddleware, require('./routes/categoryRoutes'));
 app.use('/users', require('./routes/userRoutes'));
