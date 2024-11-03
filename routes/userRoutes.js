@@ -11,11 +11,15 @@ router.post('/login', userController.login);
 // load thông tin người dùng
 router.get('/loaduser', userController.getUsers);
 
+//Cập nhật thông tin người dùng
+router.put('/update/:id', userController.updateUser);
+
+//xóa người dùng 
+router.delete('/delete/:id', userController.deleteUser);
+
+
 module.exports = router;
 
 
 
-// // Thêm các route cho quản lý người dùng trong admin
-// router.post('/admin/add', userController.addUser); // Thêm người dùng
-// router.put('/admin/:id', userController.updateUser); // Cập nhật người dùng
-// router.delete('/admin/:id', userController.deleteUser); // Xóa người dùng
+

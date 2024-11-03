@@ -95,3 +95,66 @@ exports.getUsers = (req, res) => {
     });
 };
 
+// Cập nhật thông tin người dùng
+exports.updateUser = async (req, res) => {
+    const { id } = req.params;
+    const { username, role, detail } = req.body;  // Các trường cần cập nhật
+    
+    try {
+        // Kiểm tra người dùng tồn tại hay không
+        const [existingUser] = await db.promise().query('SELECT * FROM Users WHERE user_id = ?', [id]);
+        if (existingUser.length === 0) {
+            return res.status(404).json({ 
+                success: false,
+                message: 'Người dùng không tồn tại'
+            });
+        }
+
+        // Cập nhật thông tin người dùng
+        await db.promise().query('UPDATE Users SET username = ?, role = ?, detail = ? WHERE user_id = ?', 
+            [username || existingUser[0].username, role || existingUser[0].role, detail || existingUser[0].detail, id]);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Cập nhật người dùng thành công'
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Đã có lỗi xảy ra, vui lòng thử lại sau'
+        });
+    }
+};
+
+// Xóa người dùng
+exports.deleteUser = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Kiểm tra người dùng tồn tại hay không
+        const [existingUser] = await db.promise().query('SELECT * FROM Users WHERE user_id = ?', [id]);
+        if (existingUser.length === 0) {
+            return res.status(404).json({ 
+                success: false,
+                message: 'Người dùng không tồn tại'
+            });
+        }
+
+        // Xóa người dùng
+        await db.promise().query('DELETE FROM Users WHERE user_id = ?', [id]);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Xóa người dùng thành công'
+        });
+
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Đã có lỗi xảy ra, vui lòng thử lại sau'
+        });
+    }
+};

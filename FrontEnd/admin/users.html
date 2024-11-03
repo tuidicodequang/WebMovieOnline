@@ -14,9 +14,10 @@
             <a href="Dashboard.html">Dashboard</a>
             <a href="movies.html">Movies</a>
             <a href="categories.html">Categories</a>
+            <a href="actors.html">Actors & Directors</a>
             <a href="users.html" class="active">Users</a>
             <a href="reviews.html">Reviews</a>
-            <a href="settings.html">Settings</a>
+            <a href="#" id="logoutButton">Logout</a>
         </div>
 
         <div class="main">
@@ -33,10 +34,11 @@
                             <th>Username</th>
                             <th>Role</th>
                             <th>detail</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="user-list">
-                        <!-- User rows will be dynamically inserted here -->
+                        
                     </tbody>
                 </table>
             </div>
@@ -45,32 +47,18 @@
                 <h3>Add New User</h3>
                 <form id="add-user-form">
                     <input type="text" id="username" placeholder="Username" required>
-                    <input type="email" id="email" placeholder="Email" required>
-                    <input type="password" id="password" placeholder="Password" required>
-                    <select id="role">
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                    </select>
+                    <input type="password" id="password" placeholder="password" required>
+                    <input type="password" id="comfirm_password" placeholder="Confirm password" required>
+                    <input type="text" id="name" placeholder="name" required>
                     <button type="submit">Add User</button>
                 </form>
             </div>
         </div>
     </div>
-
-    <script src="jsAdmin.js"></script>
-    <script>
-          
-        document.addEventListener('DOMContentLoaded', () => {
-          console.log('DOM đã sẵn sàng');
-          if (typeof loadUsers === 'function') {
-            console.log('Hàm loadUsers tồn tại');
-            loadUsers();
-          } else {
-            console.error('Hàm loadUsers không tồn tại');
-          }
-        });
-        </script>
-                
+    <script src="adminjs/jsAdmin.js" type="module"></script>
+  
     
+
+
 </body>
 </html>
