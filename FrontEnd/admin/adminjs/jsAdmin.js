@@ -75,6 +75,11 @@ async function loadUsers() {
 }
 
 function displayUsers(users) {
+    if (!Array.isArray(users)) {
+        console.error('Dữ liệu người dùng không phải là một mảng hợp lệ:', users);
+        return;
+    }
+
     const tbody = document.querySelector('#user-list');
     if (!tbody) {
         return;
@@ -300,8 +305,6 @@ function displayActors(actors) {
         if (target.classList.contains('update-actor-btn')) {
             handleActorUpdate(e);
         }
-        
-  
         
         // Xử lý nút Delete
         if (target.classList.contains('delete-actor-btn')) {
@@ -537,7 +540,7 @@ function displayDirectors(directors) {
     const tbody = document.querySelector('#directors-list');
     if (!tbody) return;
 
-    tbody.innerHTML = ''; // Xóa nội dung cũ
+    tbody.innerHTML = '';
 
     directors.forEach(director => {
         const row = document.createElement('tr');
@@ -775,7 +778,6 @@ async function loadCategories() {
         });
 
     } catch (error) {
-        console.error('Chi tiết lỗi khi tải categories:', error);
     }
 }
 
@@ -823,35 +825,28 @@ async function loadMovies() {
 // Hàm tìm kiếm gần đúng
 function searchMovies() {
     const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-    const categoryFilter = document.getElementById('categorySelect').selectedOptions[0].text; // Lấy text của thể loại
-
+    const categoryFilter = document.getElementById('categorySelect').selectedOptions[0].text;
+    
     let filteredMovies = allMovies;
 
-    // Lọc theo từ khóa tìm kiếm
-    if (searchTerm) {
-        filteredMovies = filteredMovies.filter(movie => {
-            return movie.title.toLowerCase().includes(searchTerm) ||
-                   movie.movie_id.toString().includes(searchTerm) ||
-                   (movie.categories && movie.categories.toLowerCase().includes(searchTerm));
-        });
-    }
-
-
- // Lọc theo thể loại
-    if (categoryFilter === "Tất cả thể loại") {
-        filteredMovies = allMovies; 
-    } else {
-        filteredMovies = allMovies.filter(movie => {
-        const categoriesArray = movie.categories;
-            return categoriesArray && categoriesArray.includes(categoryFilter);
-        });
-    }
+    // Áp dụng cả hai bộ lọc cùng một lúc
+    filteredMovies = filteredMovies.filter(movie => {
+        // Điều kiện tìm kiếm
+        const matchesSearch = searchTerm === '' || // Nếu không có từ khóa tìm kiếm
+            movie.title.toLowerCase().includes(searchTerm) ||
+            movie.movie_id.toString().includes(searchTerm) ||
+            (movie.categories && movie.categories.toLowerCase().includes(searchTerm));
+            
+        // Điều kiện lọc theo thể loại
+        const matchesCategory = categoryFilter === "Tất cả thể loại" || // Nếu không chọn thể loại cụ thể
+            (movie.categories && movie.categories.includes(categoryFilter));
+            
+        // Trả về true nếu thỏa mãn cả hai điều kiện
+        return matchesSearch && matchesCategory;
+    });
 
     displayMovies(filteredMovies);
 }
-
-
-
 function filterByCategory() {
     searchMovies();
 }
@@ -875,7 +870,7 @@ function displayMovies(movies) {
             <td>${escapeHtml(movie.movie_id?.toString() || '')}</td>
             <td>${escapeHtml(movie.title || '')}</td>
             <td>${escapeHtml(movie.avg_rating?.toString() || '')}</td>
-            <td>${escapeHtml(movie.MovieLength?.toString() || '')}</td>
+            <td>${escapeHtml(movie.Movie_Length?.toString() || '')}</td>
             <td>${escapeHtml(movie.categories || '')}</td>
             <td>
                 <button class="update-movie-btn" data-id="${movie.movie_id}">Update</button>
@@ -902,11 +897,10 @@ function displayMovies(movies) {
 // Khởi tạo khi trang load
 window.onload = async () => {
     await loadCategories();
-    await loadMovies(); 
+    await loadMovies();
 };
 
 // Handle delete and update functions would go here (similar to handleDirectorDelete, etc.)
-
 async function handleMovieDelete(event) {
     const button = event.target;
     const movieId = button.dataset.id;
@@ -947,11 +941,11 @@ async function handleMovieDelete(event) {
     }
 }
 
-
-
 // Xử lý cập nhật phim
-function handleMovieUpdate(event) {
-    // Logic cho cập nhật phim (tương tự như với đạo diễn)
+async function handleMovieUpdate(event) {
+    const movieId = event.target.dataset.id;
+    // Chuyển hướng sang trang action movie với query parameter
+    window.location.href = `movie_action.html?id=${movieId}`;
 }
 
-// Thêm các xử lý khác nếu cần
+

@@ -7,54 +7,79 @@
     <link rel="stylesheet" href="adminStyleCss/stylesMovie_action.css">
 </head>
 <body>
+    <button onclick="history.back()" class="back-button">Back</button>
     <div class="poster-preview" id="posterPreview">
         <img id="posterImage" src="" alt="Poster Preview">
     </div>
     <div class="container">
         <div class="form-container">
             <h2>Add Movie</h2>
-            <form action="/add_movie" method="POST">
+            <form id="addMovieForm">
                 <label for="id">Movie ID</label>
                 <input type="number" id="id" name="id" disabled placeholder="Auto-generated">
-
+    
                 <label for="title">Title</label>
                 <input type="text" id="title" name="title" maxlength="255" required>
-
+    
                 <label for="release_date">Release Date</label>
                 <input type="date" id="release_date" name="release_date">
-
+    
                 <label for="description">Description</label>
                 <textarea id="description" name="description" rows="5"></textarea>
-
+    
                 <label for="poster">Poster URL</label>
                 <input type="url" id="poster" name="poster" maxlength="255" oninput="updatePosterPreview()">
-
+    
                 <label for="video_url">Video URL</label>
                 <input type="url" id="video_url" name="video_url" maxlength="255">
-
+    
                 <label for="avg_rating">Average Rating</label>
-                <input type="number" id="avg_rating" name="avg_rating" step="0.01" min="0" max="10" value="0.00">
-
+                <input type="number" id="avg_rating" name="avg_rating" step="0.01" min="0" max="5" value="0.00">
+    
                 <label for="movie_length">Movie Length (minutes)</label>
                 <input type="number" id="movie_length" name="movie_length" min="0">
-
+    
                 <label for="created_at">Created At</label>
                 <input type="text" id="created_at" name="created_at" disabled placeholder="Auto-filled with current timestamp">
+                
+                <label for="categories">Categories</label>
+                <div style="display: flex; align-items: center;">
+                    <input type="text" id="categorySearch" placeholder="Add categories...">
+                    <button type="button" class="ellipsis-button" onclick="toggleCategoryDropdown()">...</button>
+                </div>
+                <div id="categoryResults" class="dropdown"></div>
+                <div id="selectedCategorys" class="tags"></div>
+
+
 
                 <label for="actors">Actors</label>
-                <input type="text" id="actors" name="actors" placeholder="Enter actors separated by commas">
-
+                <div style="display: flex; align-items: center;">
+                    <input type="text" id="actorSearch" placeholder="Add actors...">
+                    <button type="button" class="ellipsis-button" onclick="toggleActorDropdown()">...</button>
+                </div>
+                <div id="actorResults" class="dropdown"></div>
+                <div id="selectedActors" class="tags"></div>
+    
                 <label for="directors">Directors</label>
-                <input type="text" id="directors" name="directors" placeholder="Enter directors separated by commas">
-
-                <button type="submit" class="submit-btn">Add Movie</button>
+                <div style="display: flex; align-items: center;">
+                    <input type="text" id="directorSearch" placeholder="Add directors...">
+                    <button type="button" class="ellipsis-button" onclick="toggleDirectorDropdown()">...</button>
+                </div>
+                <div id="directorResults" class="dropdown"></div>
+                <div id="selectedDirectors" class="tags"></div>
+                
+                <button type="submit" class="submit-btn" id="submitMovie">Add Movie</button>
             </form>
         </div>
+        <div class="reviews-panel">
+            <h3>Đánh giá phim</h3>
+            <div id="reviewsList">
+                <!-- Phần này sẽ được điền bởi JavaScript -->
+            </div>
+        </div>
     </div>
-
     <script>
         function updatePosterPreview() {
-       
             const posterUrl = document.getElementById("poster").value;
             const posterPreview = document.getElementById("posterPreview");
             const posterImage = document.getElementById("posterImage");
@@ -67,5 +92,157 @@
             }
         }
     </script>
+  <script>
+    // Hàm lấy token xác thực và thực hiện yêu cầu Fetch
+    async function fetchWithAuth(url, options = {}) {
+        const token = localStorage.getItem('token');
+        if (!token) throw new Error('Không tìm thấy token xác thực');
+
+        return fetch(url, {
+            ...options,
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+
+    // Hàm tải dữ liệu cho các lựa chọn (diễn viên, đạo diễn, thể loại)
+    async function loadDataForSelect(url, listName) {
+        try {
+            const response = await fetchWithAuth(url);
+            if (!response.ok) throw new Error(`Lỗi khi tải danh sách ${listName}`);
+            window[`${listName}List`] = await response.json();
+            console.log(`${capitalize(listName)} List:`, window[`${listName}List`]);
+        } catch (error) {
+            console.error('Lỗi:', error);
+        }
+    }
+
+    async function loadActorsForSelect() {
+        loadDataForSelect('/actors', 'actors');
+    }
+
+    async function loadDirectorsForSelect() {
+        loadDataForSelect('/directors', 'directors');
+    }
+
+    async function loadCategoriesForSelect() {
+        loadDataForSelect('/categories', 'categories');
+    }
+
+    // Hàm xử lý tìm kiếm và hiển thị kết quả cho các loại
+    function searchAndDisplay(type, query) {
+        const list = type === 'actor' ? window.actorsList 
+                    : type === 'director' ? window.directorsList 
+                    : window.categoriesList;
+
+        if (!Array.isArray(list)) {
+            console.error(`${type}List is not loaded or is undefined.`);
+            return;
+        }
+
+        const results = list.filter(item => 
+            item[`${type}_name`].toLowerCase().includes(query.toLowerCase())
+        );
+
+        const resultsDiv = document.getElementById(`${type}Results`);
+        resultsDiv.innerHTML = "";
+
+        results.forEach(item => {
+            if (!isItemSelected(type, item[`${type}_name`])) {
+                const option = document.createElement("div");
+                option.className = "dropdown-item";
+                option.textContent = item[`${type}_name`];
+                option.onclick = () => addTag(type, item);
+                resultsDiv.appendChild(option);
+            }
+        });
+
+        resultsDiv.style.display = results.length > 0 ? "block" : "none";
+    }
+
+    // Hàm thêm tag khi chọn item từ danh sách
+    function addTag(type, item) {
+    const selectedDiv = document.getElementById(`selected${capitalize(type)}s`);
+    if (!selectedDiv) {
+        console.error(`Element with ID selected${capitalize(type)}s not found`);
+        return;
+    }
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = item[`${type}_name`];
+    tag.dataset.id = item[`${type}_id`];
+    tag.onclick = () => tag.remove();
+    selectedDiv.appendChild(tag);
+    document.getElementById(`${type}Results`).style.display = "none";
+}
+
+
+    // Kiểm tra item đã được chọn chưa
+    function isItemSelected(type, name) {
+    const selectedDiv = document.getElementById(`selected${capitalize(type)}s`);
+    // Kiểm tra nếu selectedDiv tồn tại trước khi truy cập vào `children`
+    if (!selectedDiv) {
+        console.error(`Element with ID selected${capitalize(type)}s not found`);
+        return false;
+    }
+    return Array.from(selectedDiv.children).some(tag => tag.textContent === name);
+}
+
+    // Hàm toggle dropdown cho các danh sách
+    function toggleDropdown(type) {
+        const resultsDiv = document.getElementById(`${type}Results`);
+        const isVisible = resultsDiv.style.display === "block";
+        resultsDiv.style.display = isVisible ? "none" : "block";
+
+        if (!isVisible) {
+            const query = document.getElementById(`${type}Search`).value;
+            searchAndDisplay(type, query);
+        }
+    }
+
+    function toggleActorDropdown() {
+        toggleDropdown('actor');
+    }
+
+    function toggleDirectorDropdown() {
+        toggleDropdown('director');
+    }
+
+    function toggleCategoryDropdown() {
+        toggleDropdown('category');
+    }
+
+    // Hàm tiện ích
+    const capitalize = str => str.charAt(0).toUpperCase() + str.slice(1);
+    const debounce = (fn, delay) => {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => fn(...args), delay);
+        };
+    };
+
+    // Thêm sự kiện khi nhập vào ô tìm kiếm cho từng loại
+    document.getElementById("actorSearch").oninput = debounce(e => 
+        searchAndDisplay("actor", e.target.value), 300);
+    document.getElementById("directorSearch").oninput = debounce(e => 
+        searchAndDisplay("director", e.target.value), 300);
+    document.getElementById("categorySearch").oninput = debounce(e => 
+        searchAndDisplay("category", e.target.value), 300);
+
+    // Tải dữ liệu khi trang được tải
+    window.onload = () => {
+        loadActorsForSelect();
+        loadDirectorsForSelect();
+        loadCategoriesForSelect();
+    };
+</script>
+
+<script src="adminjs/jsAdmin.js" defer></script>
+<script src ="adminjs/addMovie.js" defer></script>
+
 </body>
 </html>

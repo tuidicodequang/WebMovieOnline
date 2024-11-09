@@ -6,7 +6,7 @@ const authenticateToken = (req, res, next) => {
     const token = req.headers['authorization'];
     
     if (!token) {
-        return res.status(401).json({ message: 'Access denied. No token provided.' });
+        return res.status(401).json({ message: 'vui lòng đăng nhập lại' });
     }
 
     // Xác minh token
@@ -14,8 +14,8 @@ const authenticateToken = (req, res, next) => {
         if (err) {
             return res.status(403).json({ message: 'Invalid token.' });
         }
-        req.user = user; // Gán thông tin người dùng từ token vào request
-        next(); // Cho phép tiếp tục xử lý
+        req.user = user;
+        next(); 
     });
 };
 

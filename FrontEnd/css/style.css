@@ -656,47 +656,49 @@ ol {
 .product__item {
 	margin-bottom: 30px;
 }
-
 .product__item__pic {
-	height: 325px;
-	position: relative;
-	border-radius: 5px;
+    height: 325px;
+    position: relative;
+    border-radius: 5px;
+	background-size: cover;
+    background-position: center;
+
 }
 
 .product__item__pic .ep {
-	font-size: 13px;
-	color: #ffffff;
-	background: #e53637;
-	display: inline-block;
-	padding: 2px 12px;
-	border-radius: 4px;
-	position: absolute;
-	left: 10px;
-	top: 10px;
+    font-size: 13px;
+    color: #ffffff;
+    background: #e53637;
+    display: inline-block;
+    padding: 2px 12px;
+    border-radius: 4px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
 }
 
 .product__item__pic .comment {
-	font-size: 13px;
-	color: #ffffff;
-	background: #3d3d3d;
-	display: inline-block;
-	padding: 2px 10px;
-	border-radius: 4px;
-	position: absolute;
-	left: 10px;
-	bottom: 10px;
+    font-size: 13px;
+    color: #ffffff;
+    background: #3d3d3d;
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
 }
 
 .product__item__pic .view {
-	font-size: 13px;
-	color: #ffffff;
-	background: #3d3d3d;
-	display: inline-block;
-	padding: 2px 10px;
-	border-radius: 4px;
-	position: absolute;
-	right: 10px;
-	bottom: 10px;
+    font-size: 13px;
+    color: #ffffff;
+    background: #3d3d3d;
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 4px;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
 }
 
 .product__item__text {
@@ -771,14 +773,24 @@ ol {
 .product__sidebar__view .filter__controls li:last-child {
 	margin-right: 0;
 }
-
 .product__sidebar__view__item {
-	height: 190px;
-	position: relative;
-	border-radius: 5px;
-	margin-bottom: 20px;
+    height: 190px;
+    position: relative;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-size: cover;
+    background-position: center;
 }
 
+.product__sidebar__view__item .overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30%;
+    background: rgba(0, 0, 0, 0.4); 
+    border-radius: 0 0 5px 5px; 
+}
 .product__sidebar__view__item .ep {
 	font-size: 13px;
 	color: #ffffff;
@@ -813,6 +825,8 @@ ol {
 
 .product__sidebar__view__item h5 a {
 	color: #ffffff;
+	padding: 2px 5px;
+	z-index: 1;
 	font-weight: 700;
 	line-height: 26px;
 }
@@ -1038,17 +1052,17 @@ ol {
 	margin-bottom: 15px;
 }
 
+
 .anime__details__widget ul {
 	margin-bottom: 20px;
 }
-
 .anime__details__widget ul li {
 	list-style: none;
 	font-size: 15px;
 	color: #ffffff;
 	line-height: 30px;
 	position: relative;
-	padding-left: 18px;
+	padding-left: 15px;
 }
 
 .anime__details__widget ul li:before {
@@ -1060,13 +1074,11 @@ ol {
 	background: #b7b7b7;
 	content: "";
 }
-
 .anime__details__widget ul li span {
 	color: #b7b7b7;
-	width: 115px;
+	width: 100px;
 	display: inline-block;
 }
-
 .anime__details__btn .follow-btn {
 	font-size: 13px;
 	color: #ffffff;
@@ -1079,7 +1091,6 @@ ol {
 	border-radius: 4px;
 	margin-right: 11px;
 }
-
 .anime__details__btn .watch-btn span {
 	font-size: 13px;
 	color: #ffffff;
@@ -1092,7 +1103,6 @@ ol {
 	border-radius: 4px 0 0 4px;
 	margin-right: 1px;
 }
-
 .anime__details__btn .watch-btn i {
 	font-size: 20px;
 	display: inline-block;

@@ -22,7 +22,7 @@
         <div class="main">
             <div class="header">
                 <h1>Quản lý Diễn viên & Đạo diễn</h1>
-                <img src="C:\Users\manno\OneDrive\Desktop\WebMovieOnline\FrontEnd\img\avtadmin.png" alt="User Avatar">
+                <img src="https://icons.veryicon.com/png/o/miscellaneous/yellow-simple-icon/avatar-18.png" alt="User Avatar">
             </div>
 
             <!-- Buttons to toggle between Actor and Director views -->
@@ -105,9 +105,11 @@
             document.getElementById("directorView").style.display = "block";
             document.getElementById("directorViewBtn").classList.add("active");
             document.getElementById("actorViewBtn").classList.remove("active");
-            loadDirectors();
+         
         });
     </script>
-     <script src="adminjs/jsAdmin.js"></script>
+        <script type="module" src="adminjs/actor-management.js"></script>
+        <script type="module" src="adminjs/director-management.js"></script>
+  
 </body>
 </html>

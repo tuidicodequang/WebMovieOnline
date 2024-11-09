@@ -23,7 +23,7 @@
         <div class="main">
             <div class="header">
                 <h1>Manage Reviews</h1>
-                <img src="https://via.placeholder.com/40" alt="User Avatar">
+                <img src="https://icons.veryicon.com/png/o/miscellaneous/yellow-simple-icon/avatar-18.png" alt="User Avatar">
             </div>
 
             <div class="products">
@@ -40,18 +40,126 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>john_doe</td>
-                            <td>Avengers: Endgame</td>
-                            <td>9.5</td>
-                            <td>Great movie!</td>
-                            <td><button>Edit</button> <button>Delete</button></td>
+                            
                         </tr>
-                        <!-- Add more review rows here -->
+                    
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+    <script src="adminjs/jsAdmin.js" type="module"></script>
+    <script>
+        // Lấy tham chiếu đến tbody
+const reviewsTableBody = document.querySelector('.products table tbody');
 
+// Hàm để tạo hàng trong bảng
+function createReviewRow(review) {
+  const row = document.createElement('tr');
+
+  const userCell = document.createElement('td');
+  userCell.textContent = review.username;
+  row.appendChild(userCell);
+
+  const movieCell = document.createElement('td');
+  movieCell.textContent = review.movie_title;
+  row.appendChild(movieCell);
+
+  const ratingCell = document.createElement('td');
+  ratingCell.textContent = review.rating;
+  row.appendChild(ratingCell);
+
+  const reviewCell = document.createElement('td');
+  reviewCell.textContent = review.comment;
+  row.appendChild(reviewCell);
+
+  const actionsCell = document.createElement('td');
+  const deleteButton = document.createElement('button');
+  deleteButton.textContent = 'Delete';
+  deleteButton.addEventListener('click', () => deleteReview(review.review_id));
+  actionsCell.appendChild(deleteButton);
+  row.appendChild(actionsCell);
+
+  return row;
+}
+
+// Hàm để xóa đánh giá
+async function deleteReview(reviewId) {
+  // Xác nhận xóa
+  if (!confirm('Bạn có chắc muốn xóa đánh giá này?')) {
+    return;
+  }
+  try {
+       const token = localStorage.getItem('token');
+        if (!token) {
+        throw new Error('Không tìm thấy token xác thực');
+        }
+
+    // Thực hiện yêu cầu DELETE với xác thực
+    const response = await fetch(`/reviews/${reviewId}`, {
+  method: 'DELETE',
+  headers: {
+    'Authorization': token,
+    'Content-Type': 'application/json'
+  }
+});
+
+    if (!response.ok) throw new Error('Lỗi khi xóa review');
+
+    // Xóa review khỏi giao diện
+    const reviewCard = document.querySelector(`[data-review-id="${reviewId}"]`);
+    if (reviewCard) {
+      reviewCard.remove();
+    }
+  } catch (error) {
+    console.error('Lỗi khi xóa review:', error);
+    alert('Không thể xóa đánh giá');
+  }
+}
+
+function loadReviews() {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    throw new Error('Không tìm thấy token xác thực');
+  }
+
+  fetch('/reviews', {
+    method: 'GET',
+    headers: {
+      'Authorization': token,
+      'Content-Type': 'application/json'
+    }
+  })
+  .then((response) => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Lỗi khi tải dữ liệu đánh giá');
+    }
+  })
+  .then((data) => {
+    // Kiểm tra xem dữ liệu có ở định dạng mảng hay không
+    if (Array.isArray(data)) {
+      // Xóa các hàng cũ khỏi bảng
+      while (reviewsTableBody.firstChild) {
+        reviewsTableBody.removeChild(reviewsTableBody.firstChild);
+      }
+   
+      // Thêm các hàng mới vào bảng
+      data.forEach((review) => {
+        const row = createReviewRow(review);
+        reviewsTableBody.appendChild(row);
+        console.log(review)
+      });
+    } else {
+      console.error('Error loading reviews: Data is not in the expected format');
+    }
+  })
+  .catch((error) => {
+    console.error('Error loading reviews:', error);
+  });
+}
+loadReviews();
+  </script>
 </body>
 </html>
