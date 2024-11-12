@@ -3,12 +3,12 @@ const router = express.Router();
 const watchHistoryController = require('../controllers/watchHistoryController');
 
 // Lấy lịch sử xem của người dùng
-router.get('/:userId', watchHistoryController.getWatchHistoryByUserId);
+router.get('/:username', watchHistoryController.getWatchHistory);
 
 // Thêm phim vào lịch sử xem
-router.post('/', watchHistoryController.addMovieToHistory);
+router.post('/', watchHistoryController.saveWatchHistory);
 
 // Xóa lịch sử xem
-//router.delete('/:userId/:movieId', watchHistoryController.deleteMovieFromHistory);
+router.delete('/:id_watch_history', watchHistoryController.deleteWatchHistory);
 
 module.exports = router;

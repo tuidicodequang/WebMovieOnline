@@ -2,6 +2,7 @@ import { checkAuth } from './auth.js';
 import { displayError, escapeHtml } from './utils.js';
 import { encodeId,decodeId} from './Crypto.js';
 import { loadMovieReviews, postComment} from'./review-management.js';
+import{saveWatchHistory}from './WatchHistory-management.js'
 
 
 let allMovies = [];
@@ -338,29 +339,52 @@ export async function displayDetailMovie(movie) {
     }
 }
 
-export async function DisplayWatchMovie(movieId) {
+export async function DisplayWatchMovie(movieId, position) {
     try {
-      const movie = await loadMovieFormId(movieId);
-  
-      const videoSource = movie.video_url;
-  
-      // Lấy reference đến video element
-      const videoElement = document.getElementById('player');
-      loadMovieReviews(movie.movie_id)
-      // Cập nhật source của video
-      videoElement.querySelector('source').src = videoSource;
-  
+        const movie = await loadMovieFormId(movieId);
+        const videoSource = movie.video_url;
+        const videoElement = document.getElementById('player');
 
-      videoElement.setAttribute('data-poster', movie.poster || './videos/anime-watch.jpg');
-  
-      // Khởi động lại video
-      videoElement.load();
+        // Load movie reviews
+        loadMovieReviews(movie.movie_id);
+
+        // Cài đặt video source
+        videoElement.querySelector('source').src = videoSource;
+        videoElement.setAttribute('data-poster', movie.poster || './videos/anime-watch.jpg');
+        videoElement.load();
+
+        // Đặt vị trí xem cuối cùng nếu có
+        if (position != 0) {
+            videoElement.currentTime = position;
+        }
+
+      
+        let saveTimeout;
+        videoElement.addEventListener('timeupdate', () => {
+            
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                saveWatchHistory(movieId, videoElement.currentTime)
+                    .catch(err => console.error('Error saving watch position:', err));
+            }, 10000); 
+        });
+
+        videoElement.addEventListener('pause', () => {
+            saveWatchHistory(movieId, videoElement.currentTime)
+                .catch(err => console.error('Error saving watch position:', err));
+        });
+
+        // Lưu vị trí khi người dùng rời khỏi trang
+        window.addEventListener('beforeunload', () => {
+            saveWatchHistory(movieId, videoElement.currentTime)
+                .catch(err => console.error('Error saving watch position:', err));
+        });
+
     } catch (error) {
-      console.error('Error displaying watch movie:', error);
-      alert('Error displaying watch movie');
+        console.error('Error displaying watch movie:', error);
+        alert('Error displaying watch movie');
     }
-  }
-
+}
 // Xử lý cập nhật phim
 async function handleMovieUpdate(event) {
     const movieId = event.target.dataset.id;

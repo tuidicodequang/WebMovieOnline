@@ -17,5 +17,8 @@ router.delete('/:id', movieController.deleteMovie);
 //Cập nhật phim
 router.put('/:id', movieController.updateMovie);
 
+//Lấy thông tin theo categories
+router.get('/category/:categorySlug', movieController.getMovieByCategories);
+
 
 module.exports = router;

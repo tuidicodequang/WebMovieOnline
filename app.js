@@ -46,9 +46,10 @@ app.get('/', (req, res) => {
 // Định nghĩa các route (Movies, Categories, Users, Admin...)
 app.use('/actors', authMiddleware, require('./routes/actorRoutes'));
 app.use('/directors', authMiddleware, require('./routes/directorRoutes'));
-app.use('/movies', authMiddleware, require('./routes/movieRoutes'));
+app.use('/movies', require('./routes/movieRoutes'));
 app.use('/categories', authMiddleware, require('./routes/categoryRoutes'));
 app.use('/reviews', authMiddleware, require('./routes/reviewRoutes'));
+app.use('/watch-history', authMiddleware, require('./routes/watchHistoryRoutes'));
 app.use('/users', require('./routes/userRoutes'));
 app.use('/admin', authMiddleware, require('./middlewares/roleMiddleware')('admin'), require('./routes/adminRoutes'));
 

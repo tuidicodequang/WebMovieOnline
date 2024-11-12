@@ -1985,13 +1985,46 @@ typeof navigator === "object" && (function (global, factory) {
     createTime: function createTime(type, attrs) {
       var attributes = getAttributesFromSelector(this.config.selectors.display[type], attrs);
       var container = createElement('div', extend(attributes, {
-        class: "".concat(attributes.class ? attributes.class : '', " ").concat(this.config.classNames.display.time, " ").trim(),
-        'aria-label': i18n.get(type, this.config)
-      }), '00:00'); // Reference for updates
-
+          class: `${attributes.class ? attributes.class : ''} ${this.config.classNames.display.time}`.trim(),
+          'aria-label': i18n.get(type, this.config)
+      }));
+  
+      // Format time as "00:00 / 00:00"
+      if (type === 'currentTime') {
+          let timeDisplay = '00:00 / 00:00';
+          container.textContent = timeDisplay;
+  
+          // Update time display when current time changes
+          this.on('timeupdate', () => {
+              const currentTime = formatTime(this.currentTime);
+              const duration = formatTime(this.duration);
+              timeDisplay = `${currentTime} / ${duration}`;
+              container.textContent = timeDisplay;
+          });
+  
+          // Update initial duration when it's available
+          this.on('durationchange', () => {
+              const currentTime = formatTime(this.currentTime);
+              const duration = formatTime(this.duration);
+              timeDisplay = `${currentTime} / ${duration}`;
+              container.textContent = timeDisplay;
+          });
+      }
+  
+      // Store reference for updates
       this.elements.display[type] = container;
       return container;
-    },
+  },
+  
+  // Helper function to format time in MM:SS
+ formatTime: function formatTime(seconds) {
+      if (!seconds || typeof seconds !== 'number' || seconds < 0) return '00:00';
+      
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = Math.floor(seconds % 60);
+      
+      return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+  },
     // Bind keyboard shortcuts for a menu item
     // We have to bind to keyup otherwise Firefox triggers a click when a keydown event handler shifts focus
     // https://bugzilla.mozilla.org/show_bug.cgi?id=1220143
@@ -2845,7 +2878,6 @@ typeof navigator === "object" && (function (global, factory) {
           progressContainer.appendChild(_this10.elements.progress);
           container.appendChild(progressContainer);
         } // Media current time display
-
 
         if (control === 'current-time') {
           container.appendChild(createTime.call(_this10, 'currentTime', defaultAttributes));
@@ -5278,7 +5310,7 @@ typeof navigator === "object" && (function (global, factory) {
 
 
         if (player.config.toggleInvert && !is$1.element(elements.display.duration)) {
-          this.bind(elements.display.currentTime, 'click', function () {
+          this.bind(elements.display.currentTime, '', function () {
             // Do nothing if we're at the start
             if (player.currentTime === 0) {
               return;

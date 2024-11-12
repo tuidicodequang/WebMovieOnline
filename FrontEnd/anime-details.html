@@ -46,19 +46,17 @@
                 <div class="header__nav">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li class="active"><a href="./index.html">Homepage</a></li>
-                            <li><a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
+                            <li class="active"><a href="./index.html">Trang chủ</a></li>
+                            <li><a href=#>Thể loại <span class="arrow_carrot-down"></span></a>
                                 <ul class="dropdown">
-                                    <li><a href="./categories.html">Categories</a></li>
-                                    <li><a href="./anime-details.html">Anime Details</a></li>
-                                    <li><a href="./anime-watching.html">Anime Watching</a></li>
+                                    <li><a href=#>Categories</a></li>
                                     <li><a href="./blog-details.html">Blog Details</a></li>
                                     <li><a href="./signup.html">Sign Up</a></li>
                                     <li><a href="./login.html">Login</a></li>
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">Our Blog</a></li>
-                            <li><a href="./watch-history.html">Watch history</a></li>
+                            <li><a href="./blog.html">Blog</a></li>
+                            <li><a href="./watch-history.html">Lịch sử xem</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -156,17 +154,17 @@
                         </div>
                         <div class="anime__details__form">
                             <div class="section-title">
-                                <h5>Your Comment</h5>
+                                <h5>Bình luận....</h5>
                             </div>
                             <form action="">
                                 <textarea placeholder="Your Comment"></textarea>
-                                <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
+                                <button type="submit"><i class="fa fa-location-arrow"></i> Gửi</button>
                             </form>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-4">
                         <div class="section-title">
-                            <h5>you might like...</h5>
+                            <h5>Đề xuất</h5>
                         </div>
                         <div class="product__sidebar">
                             <div class="product__sidebar__view">
@@ -194,10 +192,10 @@
                     <div class="col-lg-6">
                         <div class="footer__nav">
                             <ul>
-                                <li class="active"><a href="./index.html">Homepage</a></li>
-                                <li><a href="./categories.html">Categories</a></li>
-                                <li><a href="./blog.html">Our Blog</a></li>
-                                <li><a href="#">Contacts</a></li>
+                                <li class="active"><a href="./index.html">Trang chủ</a></li>
+                                <li><a href=#>Thể loại</a></li>
+                                <li><a href="./blog.html">Blog</a></li>
+                                <li><a href="watch-history.html">Lịch sử xem</a></li>
                             </ul>
                         </div>
                     </div>
@@ -218,7 +216,6 @@
                 </form>
             </div>
         </div>
-        <!-- Search model end -->
 
         
         <!-- Js Plugins -->
@@ -279,7 +276,7 @@
         if (watchNowBtn && encodedMovieId) {
             watchNowBtn.addEventListener('click', () => {
                 // Chuyển hướng sang trang watching.html với movieId trong URL
-                window.location.href = `anime-watching.html?movieId=${encodedMovieId}`;
+                window.location.href = `anime-watching.html?movieId=${encodedMovieId}&position=${0}`;
             });
         }
     };

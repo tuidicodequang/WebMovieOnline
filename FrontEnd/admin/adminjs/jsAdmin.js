@@ -832,7 +832,7 @@ function searchMovies() {
     // Áp dụng cả hai bộ lọc cùng một lúc
     filteredMovies = filteredMovies.filter(movie => {
         // Điều kiện tìm kiếm
-        const matchesSearch = searchTerm === '' || // Nếu không có từ khóa tìm kiếm
+        const matchesSearch = searchTerm === '' ||
             movie.title.toLowerCase().includes(searchTerm) ||
             movie.movie_id.toString().includes(searchTerm) ||
             (movie.categories && movie.categories.toLowerCase().includes(searchTerm));

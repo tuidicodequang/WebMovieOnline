@@ -1,8 +1,9 @@
 const Movie = require('../models/Movie');
 const db = require('../config/db');
+const slugify = require('slugify');
 
 
-// Lấy danh sách phim cùng thể loại
+
 exports.getMovies = (req, res) => {
     const query = `
     SELECT m.*, 
@@ -327,3 +328,109 @@ exports.updateMovie = (req, res) => {
         }
     });
 };
+
+exports.getMovieByCategories = (req, res) => {
+    let categorySlug = req.params.categorySlug;
+    if(categorySlug === "tat-ca-the-loai") {
+        const query = `
+            SELECT 
+                m.*, 
+                GROUP_CONCAT(DISTINCT c.category_name SEPARATOR ', ') AS categories,
+                GROUP_CONCAT(DISTINCT c.category_slug SEPARATOR ', ') AS category_slugs,
+                GROUP_CONCAT(DISTINCT a.actor_name SEPARATOR ', ') AS actors,
+                GROUP_CONCAT(DISTINCT d.director_name SEPARATOR ', ') AS director
+            FROM movies m
+            LEFT JOIN movie_category mc ON m.movie_id = mc.movie_id
+            LEFT JOIN categories c ON mc.category_id = c.category_id
+            LEFT JOIN movie_actor ma ON m.movie_id = ma.movie_id
+            LEFT JOIN actors a ON ma.actor_id = a.actor_id
+            LEFT JOIN movie_director md ON m.movie_id = md.movie_id
+            LEFT JOIN director d ON md.director_id = d.director_id
+            GROUP BY m.movie_id
+            ORDER BY m.release_date DESC
+        `;
+
+        db.query(query, (err, results) => {
+            if (err) {
+                console.error('Error fetching all movies:', err);
+                return res.status(500).json({ error: 'Error fetching movies' });
+            }
+
+            const formattedResults = results.map(movie => ({
+                ...movie,
+                categories: movie.categories ? movie.categories.split(', ') : [],
+                category_slugs: movie.category_slugs ? movie.category_slugs.split(', ') : [],
+                actors: movie.actors ? movie.actors.split(', ') : [],
+                director: movie.director ? movie.director.split(', ') : []
+            }));
+
+            res.status(200).json({
+                category: {
+                    name: 'tất cả thể loại',
+                    slug: categorySlug,
+                    id: null
+                },
+                total_movies: results.length,
+                movies: formattedResults
+            });
+        });
+    } else {
+        const findCategoryQuery = `
+            SELECT category_id, category_name 
+            FROM categories 
+            WHERE category_slug = ?
+        `;
+
+        db.query(findCategoryQuery, [categorySlug], (categoryErr, categoryResults) => {
+            if (categoryErr) {
+                console.error('Error finding category:', categoryErr);
+                return res.status(500).json({ error: 'Error finding category' });
+            }
+            const category = categoryResults[0];
+            const query = `
+                SELECT 
+                    m.*, 
+                    GROUP_CONCAT(DISTINCT c.category_name SEPARATOR ', ') AS categories,
+                    GROUP_CONCAT(DISTINCT c.category_slug SEPARATOR ', ') AS category_slugs,
+                    GROUP_CONCAT(DISTINCT a.actor_name SEPARATOR ', ') AS actors,
+                    GROUP_CONCAT(DISTINCT d.director_name SEPARATOR ', ') AS director
+                FROM movies m
+                LEFT JOIN movie_category mc ON m.movie_id = mc.movie_id
+                LEFT JOIN categories c ON mc.category_id = c.category_id
+                LEFT JOIN movie_actor ma ON m.movie_id = ma.movie_id
+                LEFT JOIN actors a ON ma.actor_id = a.actor_id
+                LEFT JOIN movie_director md ON m.movie_id = md.movie_id
+                LEFT JOIN director d ON md.director_id = d.director_id
+                WHERE mc.category_id = ?
+                GROUP BY m.movie_id
+                ORDER BY m.release_date DESC
+            `;
+
+            db.query(query, [category.category_id], (err, results) => {
+                if (err) {
+                    console.error('Error fetching movies by category:', err);
+                    return res.status(500).json({ error: 'Error fetching movies' });
+                }
+
+                const formattedResults = results.map(movie => ({
+                    ...movie,
+                    categories: movie.categories ? movie.categories.split(', ') : [],
+                    category_slugs: movie.category_slugs ? movie.category_slugs.split(', ') : [],
+                    actors: movie.actors ? movie.actors.split(', ') : [],
+                    director: movie.director ? movie.director.split(', ') : []
+                }));
+
+                res.status(200).json({
+                    category: {
+                        name: category.category_name,
+                        slug: categorySlug,
+                        id: category.category_id
+                    },
+                    total_movies: results.length,
+                    movies: formattedResults
+                });
+            });
+        });
+    }
+};
+

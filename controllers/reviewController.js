@@ -80,7 +80,6 @@ exports.createReview = (req, res) => {
 exports.deleteReview = (req, res) => {
     const { review_id } = req.params;
     
-    // Đầu tiên lấy thông tin review để biết movie_id
     db.query('SELECT movie_id FROM Reviews WHERE review_id = ?', [review_id], (err, results) => {
         if (err) return res.status(500).json({ error: 'Lỗi khi xóa đánh giá' });
         

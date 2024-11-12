@@ -69,7 +69,7 @@ export async function postComment(movieId, rating, commentText) {
 
     if (response.ok) {
       const newReview = await response.json();
-      await loadMovieReviews(movieId);
+      await loadMovieReviews(decodeId(movieId));
       return newReview;
     } else {
       const error = await response.json();
