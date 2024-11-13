@@ -11,10 +11,10 @@ exports.getCategories = (req, res) => {
 
 // Thêm thể loại mới
 exports.createCategory = (req, res) => {
-    const { name } = req.body;
+    const { name,slug } = req.body;
     if (!name) return res.status(400).json({ error: 'Name is required' });
 
-    db.query('INSERT INTO Categories (name) VALUES (?)', [name], (err, result) => {
+    db.query('INSERT INTO Categories (name),(slug) VALUES (?),(?)', [name], (err, result) => {
         if (err) return res.status(500).json({ error: 'Error creating category' });
         res.status(201).json({ message: 'Category created successfully!' });
     });

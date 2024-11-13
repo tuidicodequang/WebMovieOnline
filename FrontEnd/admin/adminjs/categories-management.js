@@ -1,5 +1,5 @@
 import { encodeId,decodeId} from './Crypto.js';
-
+import {  displaySidebarMovies} from'./movie-management.js';
 export async function loadCategories() {
     try {
         const token = localStorage.getItem('token');
@@ -126,6 +126,7 @@ export function initCategoryPage() {
 
 
 export function displayCategoryMovies(data) {
+    Loadsidebar();
     try {
         const productContainer = document.querySelector('.MovieCategories .row');
         if (!productContainer) {
@@ -179,7 +180,7 @@ export function displayCategoryMovies(data) {
                                     : movie.categories.split(', ').map(category => `<li>${category}</li>`).join('')
                                 }
                             </ul>
-                                  <h5><a href="anime-details.html?id=${encodeId(movie.movie_id)}">${escapeHtml((movie.title))}</a></h5>
+                                  <h5><a href="anime-details.html?id=${encodeId(movie.movie_id)}">${((movie.title))}</a></h5>
                         </div>
                     </div>
                 </div>
@@ -206,7 +207,24 @@ function initSetBgImage() {
 function getRandomViews(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+async function Loadsidebar() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        throw new Error('Không tìm thấy token xác thực');
+    }
 
+    const response = await fetch('/movies', {
+        method: 'GET',
+        headers: {
+            'Authorization': token,
+            'Content-Type': 'application/json'
+        }
+    });
+    const movies = await response.json();
+    displaySidebarMovies(movies);
+
+    
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {

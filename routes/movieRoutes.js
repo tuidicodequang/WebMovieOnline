@@ -20,5 +20,7 @@ router.put('/:id', movieController.updateMovie);
 //Lấy thông tin theo categories
 router.get('/category/:categorySlug', movieController.getMovieByCategories);
 
+//Lấy thông tin từ search
+router.get('/search/:q', movieController.getMoviesBySearch);
 
 module.exports = router;

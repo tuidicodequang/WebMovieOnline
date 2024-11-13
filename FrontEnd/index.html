@@ -76,7 +76,7 @@
                             <span id="username">User</span>
                         </a>
                         <div class="dropdown-menu">
-                            <a href="#" id="userInfo">Thông tin chi tiết</a>
+                            <a href="resetpassword.html" id="userInfo">Đổi mật khẩu</a>
                             <a href="#" id="logoutButton">Đăng xuất</a>
                         </div>
                     </div>
@@ -215,7 +215,7 @@
                 <div class="footer__nav">
                     <ul>
                         <li class="active"><a href="./index.html">Trang chủ</a></li>
-                        <li><a href=#>Thể loại</a></li>
+                        <li><a href="./categories.html?category=tat-ca-the-loai">Thể loại</a></li>
                         <li><a href="./blog.html">Blog</a></li>
                         <li><a href="./watch-history.html">Lịch sử xem</a></li>
                     </ul>
@@ -278,12 +278,7 @@
             window.location.href = '/login.html';
         });
     
-        // Xử lý xem thông tin chi tiết
-        userInfoButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            // Thêm code để hiển thị thông tin chi tiết người dùng
-            alert('Chức năng đang được phát triển');
-        });
+   
     
         // Kiểm tra trạng thái đăng nhập khi trang được tải
         checkLoginStatus();
@@ -300,6 +295,18 @@
 <script src="js/main.js"></script>
 <script src="admin/adminjs/movie-management.js" type="module"></script>
 <script src="admin/adminjs/categories-management.js" type="module"></script>
+</script>
+<script>
+const searchForm = document.querySelector('.search-model-form');
+const searchInput = document.getElementById('search-input');
+
+searchForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  const searchTerm = searchInput.value.trim();
+  if (searchTerm) {
+    window.location.href = `search-page.html?q=${encodeURIComponent(searchTerm)}`;
+  }
+});
 </script>
 
 </body>

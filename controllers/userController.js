@@ -158,3 +158,47 @@ exports.deleteUser = async (req, res) => {
         });
     }
 };
+
+exports.changePassword = async (req, res) => {
+    const { username, currentPassword, newPassword } = req.body;
+    console.log (username,currentPassword,newPassword)
+    try {
+        // Kiểm tra người dùng tồn tại
+        const [existingUser] = await db.promise().query('SELECT * FROM Users WHERE username = ?', [username]);
+        if (existingUser.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: 'Người dùng không tồn tại'
+            });
+        }
+        if (!bcrypt.compareSync(currentPassword,existingUser[0].password)) {
+            console.log(existingUser[0].password)
+            console.log(bcrypt.hashSync(currentPassword, 10))
+            return res.status(401).json({
+                success: false,
+                message: 'Mật khẩu hiện tại không đúng'
+                
+            });
+        }
+        if (newPassword.length < 8) {
+            return res.status(400).json({
+                success: false,
+                message: 'Mật khẩu phải có ít nhất 8 ký tự'
+            });
+        }
+
+        const hashedPassword = bcrypt.hashSync(newPassword, 10);
+        await db.promise().query('UPDATE Users SET password = ? WHERE username = ?', [hashedPassword, username]);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Cập nhật mật khẩu thành công'
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Đã có lỗi xảy ra, vui lòng thử lại sau'
+        });
+    }
+};

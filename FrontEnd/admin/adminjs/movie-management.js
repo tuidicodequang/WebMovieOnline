@@ -151,6 +151,7 @@ function displayMovies(movies) {
     });
 }
 export function displayTrendingMovies(movies) {
+    movies.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     const trendingMovies = movies.slice(0, 6);
     const trendingContainer = document.querySelector('.trendingMovies .row');
  
@@ -298,7 +299,12 @@ export async function displayDetailMovie(movie) {
     const movies = await response.json();
     displaySidebarMovies(movies);
     document.querySelector('.anime__details__title h3').textContent = movie.title || '';
-
+    if (movie) {
+        const breadcrumbSpan = document.querySelector('.breadcrumb__links span');
+        if (breadcrumbSpan) {
+            breadcrumbSpan.textContent= movie.title;
+        }
+    }
     // Poster and views
     document.querySelector('.anime__details__pic').style.backgroundImage = `url(${movie.poster || 'https://www.shutterstock.com/image-vector/image-icon-600nw-211642900.jpg'})`;
     loadMovieReviews(movie.movie_id)

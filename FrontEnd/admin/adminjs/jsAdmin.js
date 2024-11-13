@@ -898,6 +898,8 @@ function displayMovies(movies) {
 window.onload = async () => {
     await loadCategories();
     await loadMovies();
+    await displayforadmin();
+    
 };
 
 // Handle delete and update functions would go here (similar to handleDirectorDelete, etc.)
@@ -949,3 +951,54 @@ async function handleMovieUpdate(event) {
 }
 
 
+ async function displayforadmin() {
+    try {
+        console.log('Bắt đầu tải danh sách thể loại...');
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error('Không tìm thấy token xác thực');
+        }
+        const response = await fetch('/categories', { 
+            method: 'GET',
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+        });
+        const categories = await response.json();
+        const tbody = document.querySelector('#categoriesList');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        categories.forEach(category => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${escapeHtml(String(category.category_id))}</td>
+                <td>${escapeHtml(category.category_name)}</td>
+                <td>${escapeHtml(category.category_slug)}</td>
+                <td>
+                    <button class="update-category-btn" data-id="${category.category_id}">Update</button>
+                    <button class="delete-category-btn" data-id="${category.category_id}">Delete</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+        
+        // Gán sự kiện cho các nút Delete
+        const deleteButtons = tbody.querySelectorAll('.delete-category-btn');
+        deleteButtons.forEach(button => {
+            button.removeEventListener('click', handleDirectorDelete);
+            button.addEventListener('click', handleDirectorDelete);
+        });
+        
+        // Gán sự kiện cho các nút Update (nếu có)
+        const updateButtons = tbody.querySelectorAll('.update-category-btn');
+        updateButtons.forEach(button => {
+            button.removeEventListener('click', handleDirectorUpdate);
+            button.addEventListener('click', handleDirectorUpdate);
+        });
+
+    } catch (error) {
+     }
+     
+
+}

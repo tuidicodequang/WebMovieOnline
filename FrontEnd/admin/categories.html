@@ -25,36 +25,36 @@
                 <h1>Manage Categories</h1>
                 <img src="https://icons.veryicon.com/png/o/miscellaneous/yellow-simple-icon/avatar-18.png" alt="User Avatar">
             </div>
-
+            
             <div class="products">
                 <h3>Category List</h3>
                 <table>
                     <thead>
                         <tr>
-                            <th>Category</th>
-                            <th>Number of Movies</th>
-                            <th>Actions</th>
+                            <th>Id</th>
+                            <th>Tên thể loại</th>
+                            <th>slug</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Action</td>
-                            <td>15</td>
-                            <td><button>Edit</button> <button>Delete</button></td>
-                        </tr>
+                    <tbody id="categoriesList">
+                        
                     </tbody>
                 </table>
             </div>
-
             <div class="add-category">
                 <h3>Add New Category</h3>
                 <form>
                     <input type="text" placeholder="Category Name" required>
+                    <input type="text" placeholder="slug" required>
                     <button type="submit">Add Category</button>
                 </form>
             </div>
+           
         </div>
     </div>
-
+    <script type="module" src="./adminjs/auth.js"></script>
+    <script type ="module" src="./adminjs/jsAdmin.js"></script>
+  </script>
 </body>
 </html>

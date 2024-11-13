@@ -2497,6 +2497,33 @@ ol {
 }
 
 
+.search-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.search-item {
+    display: flex;
+    background: #2a2a2a;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+}
+
+.search-item img {
+    width: 180px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.search-info {
+    padding: 15px;
+    flex: 1;
+    position: relative;
+}
+
+
 .title {
     color: #fff;
     margin: 0 0 8px 0;

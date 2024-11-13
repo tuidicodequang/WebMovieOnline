@@ -89,7 +89,7 @@ export async function loadWatchHistory() {
             id_watch_history: item.id_watch_history,
             movie_id: item.movie_id,
             title: item.title || 'Không có tiêu đề',
-            thumbnail: item.poster,
+            thumbnail: item.poster || 'https://www.shutterstock.com/image-vector/image-icon-600nw-211642900.jpg',
             genre: item.genres || 'Chưa phân loại',
             watched_at: item.last_watched_at,
             last_watch_position: item.position || 0,
@@ -118,7 +118,7 @@ function displayWatchHistory(historyItems) {
         const genres = Array.isArray(item.genre) ? item.genre.join(', ') : item.genre;
        
         historyItem.innerHTML = `
-           <img src="${item.thumbnail}" alt="${item.title}">
+           <img src="${item.thumbnail} " alt="${item.title}">
             <div class="history-info-1">
                 <button class="delete-btn" onclick="deleteHistoryItem(${item.id_watch_history})">×</button>
                 <h3 class="title">
@@ -140,6 +140,7 @@ function displayWatchHistory(historyItems) {
         historyContainer.appendChild(historyItem);
     });
 }
+
 
 async function loadActualDuration(urlmovie) {
     const videoElement = document.createElement('video');
