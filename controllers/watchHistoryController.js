@@ -59,6 +59,54 @@ exports.getWatchHistory = async (req, res) => {
     }
 };
 
+
+// Lấy position
+exports.getPosition = async (req, res) => {
+    const { username, id_movie } = req.params;
+    // Kiểm tra đầu vào
+    if (!username || !id_movie) {
+        return res.status(400).json({
+            success: false,
+            message: "Username và ID Movie là bắt buộc"
+        });
+    }
+
+    try {
+        const query = `
+            SELECT 
+                wh.position
+            FROM WatchHistory wh
+            INNER JOIN Users u ON wh.user_id = u.user_id
+            WHERE u.username = ? AND wh.movie_id = ?;
+        `;
+
+        db.query(query, [username, id_movie], (err, results) => {
+            if (err) {
+                console.error('Lỗi khi lấy vị trí xem:', err);
+                return res.status(500).json({
+                    success: false,
+                    message: "Lỗi server"
+                });
+            }
+
+            if (results.length === 0) {
+                return res.status(200).send("0"); 
+            }
+
+            return res.status(200).send(results[0].position.toString());
+        });
+
+    } catch (error) {
+        console.error('Lỗi khi lấy vị trí xem:', error);
+        return res.status(500).json({
+            success: false,
+            message: "Lỗi server"
+        });
+    }
+};
+
+
+
 // Xóa lịch sử xem của người dùng
 exports.deleteWatchHistory = (req, res) => {
     const { id_watch_history } = req.params;

@@ -114,15 +114,20 @@ function displayWatchHistory(historyItems) {
     historyItems.forEach(item => {
         const historyItem = document.createElement('div');
         historyItem.classList.add('history-item-1');
-
+    
         const genres = Array.isArray(item.genre) ? item.genre.join(', ') : item.genre;
-       
+        
         historyItem.innerHTML = `
-           <img src="${item.thumbnail} " alt="${item.title}">
+            <img src="${item.thumbnail} " alt="${item.title}">
             <div class="history-info-1">
                 <button class="delete-btn" onclick="deleteHistoryItem(${item.id_watch_history})">×</button>
                 <h3 class="title">
-                    <a href="/anime-watching.html?movieId=${encodeId(item.movie_id)}&position=${item.last_watch_position}" style="text-decoration: none; color: inherit;">
+                    <a href="#" class="continue-watching" 
+                       data-movie-id="${encodeId(item.movie_id)}" 
+                       data-position="${item.last_watch_position}" 
+                       data-formatted-position="${formatDuration(item.last_watch_position)}"
+                       data-title="${item.title}"
+                       style="text-decoration: none; color: inherit;">
                         ${item.title}
                     </a>
                 </h3>
@@ -134,9 +139,56 @@ function displayWatchHistory(historyItems) {
                 <div class="progress-bar" style="width: ${calculateProgress(item.last_watch_position, item.total_duration)}%"></div>
             </div>
         `;
+    
         const deleteButton = historyItem.querySelector('.delete-btn');
         deleteButton.addEventListener('click', () => deleteHistoryItem(item.id_watch_history));
-
+    
+        const continueLink = historyItem.querySelector('.continue-watching');
+        continueLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            const movieId = continueLink.dataset.movieId;
+            const lastPosition = continueLink.dataset.position;
+            const formattedPosition = continueLink.dataset.formattedPosition;
+            const title = continueLink.dataset.title;
+            
+            if(lastPosition <=0 ) {
+                window.location.href = `/anime-watching.html?movieId=${movieId}&position=0`;
+            }
+            else{
+                 // Hiển thị modal
+            const modal = document.getElementById('watch-modal');
+            const modalMessage = modal.querySelector('.modal-message');
+            modalMessage.textContent = `Bạn muốn tiếp tục xem "${title}" từ ${formattedPosition}?`;
+            modal.style.display = 'block';
+    
+         
+            const closeBtn = modal.querySelector('.close-modal');
+            closeBtn.onclick = function() {
+                modal.style.display = 'none';
+            };
+    
+            const restartBtn = modal.querySelector('.restart-btn');
+            restartBtn.onclick = function() {
+                window.location.href = `/anime-watching.html?movieId=${movieId}&position=0`;
+            };
+    
+            // Xử lý nút xem tiếp
+            const continueBtn = modal.querySelector('.continue-btn');
+            continueBtn.onclick = function() {
+                window.location.href = `/anime-watching.html?movieId=${movieId}&position=${lastPosition}`;
+            };
+    
+            // Đóng modal khi click bên ngoài
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
+            }
+           
+        });
+    
         historyContainer.appendChild(historyItem);
     });
 }

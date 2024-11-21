@@ -287,6 +287,7 @@ export async function loadMovieFormId(movieId) {
         alert('Error loading movie data');
     }
 }
+
 export async function displayDetailMovie(movie) {
     const token = localStorage.getItem('token');
     const response = await fetch('/movies', {
@@ -326,21 +327,24 @@ export async function displayDetailMovie(movie) {
     // Detailed information (Type, Studios, Date aired, etc.)
     const detailsListLeft = document.querySelector('.anime__details__widget .col-lg-6.col-md-6 ul:nth-child(1)');
     detailsListLeft.innerHTML = `
-        <li><span>Type:</span> ${movie.type || 'Movie'}</li>
-       <li><span>Director:</span> ${movie.directors && movie.directors.length > 0 ? movie.directors.map(director => director.director_name).join(', ') : 'NA'}</li>
-        <li><span>Date aired:</span> ${movie.release_date ? new Date(movie.release_date).toLocaleDateString() : 'N/A'}</li>
-        <li><span>Status:</span> ${movie.status || 'N/A'}</li>
-       <li><span>Genre:</span> ${movie.categories && movie.categories.length > 0 ? movie.categories.map(category => category.category_name).join(', ') : 'NA'}</li>
+        <li><span>Loại phim:</span> ${movie.type || 'Phim lẻ'}</li>
+       <li><span>Đạo diễn:</span> ${movie.directors && movie.directors.length > 0 ? movie.directors.map(director => director.director_name).join(', ') : 'NA'}</li>
+       <li><span>Phát hành:</span> ${movie.release_date ? new Date(movie.release_date).toLocaleDateString('vi-VN', {
+         day: '2-digit',
+         month: '2-digit',
+         year: 'numeric'
+        }) : 'N/A'}</li>
+        <li><span>Trạng thái:</span> ${movie.status || 'Hoàn thành'}</li>
+       <li><span>Thể loại:</span> ${movie.categories && movie.categories.length > 0 ? movie.categories.map(category => category.category_name).join(', ') : 'NA'}</li>
     `;
 
     const detailsListRight = document.querySelector('.anime__details__widget .col-lg-6.col-md-6:nth-child(2) ul');
     if (detailsListRight) {
         detailsListRight.innerHTML = `
-            <li><span>Rating:</span> ${movie.avg_rating || 'N/A'} / ${movie.rating_times || getRandomViews(100, 500)} times</li>
-            <li><span>Duration:</span> ${movie.duration || 'N/A'}</li>
-            <li><span>Quality:</span> ${movie.quality || 'HD'}</li>
-            <li><span>Views:</span> ${movie.views || getRandomViews(1000, 10000)}</li>
-             <li><span>Actor:</span> ${movie.actors && movie.actors.length > 0 ? movie.actors.map(actor => actor.actor_name).join(', ') : 'NA'}</li>
+            <li><span>Thời lượng:</span> ${movie.Movie_Length || 'N/A'} phút</li>
+            <li><span>Chất lượng:</span> ${movie.quality || 'HD'}</li>
+            <li><span>Lượt xem:</span> ${movie.views || getRandomViews(1000, 10000)}</li>
+             <li><span>Diễn Viên:</span> ${movie.actors && movie.actors.length > 0 ? movie.actors.map(actor => actor.actor_name).join(', ') : 'NA'}</li>
         `;
     }
 }
@@ -398,6 +402,38 @@ async function handleMovieUpdate(event) {
     window.location.href = `movie_action.html?id=${movieId}`;
 }
 
+export async function getpositionFromId(movieId) {
+    try {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            throw new Error("Người dùng chưa đăng nhập hoặc token không tồn tại");
+        }
+        const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+        const username = tokenPayload.username;
+        const response = await fetch(`/watch-history/${username}/${decodeId(movieId)}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            if (response.status === 401) {
+                throw new Error("Không được phép. Token không hợp lệ hoặc đã hết hạn");
+            } else {
+                throw new Error("Lỗi khi gọi API");
+            }
+        }
+
+        // Lấy dữ liệu từ phản hồi
+        const data = await response.text();
+        return parseInt(data, 10);
+    } catch (error) {
+        console.error("Lỗi khi lấy vị trí:", error);
+        throw error;
+    }
+}
 
 // Khởi tạo khi trang load
 window.onload = async () => {

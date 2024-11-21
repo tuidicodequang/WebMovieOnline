@@ -169,7 +169,7 @@ export function displayCategoryMovies(data) {
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="${movie.poster || 'https://www.shutterstock.com/image-vector/image-icon-600nw-211642900.jpg'}">
-                            <div class="ep">${movie.Movie_Length || 'N/A'}</div>
+                            <div class="ep">${movie.Movie_Length || 'N/A'} phút</div>
                              <div class="comment"><i class="fa fa-comments"></i> ${movie.comments || getRandomViews(10, 50)}</div>
                         <div class="view"><i class="fa fa-eye"></i> ${movie.views || getRandomViews(1000, 10000)}</div>
                         </div>

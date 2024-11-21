@@ -2605,3 +2605,90 @@ ol {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: relative; /* Thêm position relative để định vị nút close */
+    background-color: #1a1a1a;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+    color: white;
+}
+
+.close-modal {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    color: #aaa;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 5px;
+    line-height: 20px;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #fff;
+}
+
+.modal h4 {
+    margin: 0 0 15px 0;
+    color: #fff;
+    font-size: 1.5em;
+    padding-right: 20px; /* Thêm padding để tránh chồng lấn với nút close */
+}
+
+.modal-message {
+    margin-bottom: 20px;
+    color: #ccc;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.modal-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.restart-btn {
+    background-color: #6c757d;
+    color: white;
+}
+
+.continue-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.restart-btn:hover {
+    background-color: #5a6268;
+}
+
+.continue-btn:hover {
+    background-color: #0056b3;
+}

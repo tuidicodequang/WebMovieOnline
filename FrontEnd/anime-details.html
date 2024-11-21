@@ -136,7 +136,7 @@
                                 </div>
                             </div>
                             <div class="anime__details__btn">
-                                <a href="#" class="watch-btn" id="watchNowBtn"><span>Watch Now</span> <i
+                                <a href="#" class="watch-btn" id="watchNowBtn"><span>XEM NGAY!</span> <i
                                     class="fa fa-angle-right"></i></a>
                                 </div>
                             </div>
@@ -146,17 +146,17 @@
                 <div class="row">
                     <div class="col-lg-8 col-md-8">
                         <div class="section-title">
-                            <h5>Reviews</h5>
+                            <h5>Bình Luận</h5>
                         </div>
                         <div class="anime__details__review">
                            
                         </div>
                         <div class="anime__details__form">
                             <div class="section-title">
-                                <h5>Bình luận....</h5>
+                                <h5>Bình luận ngay!!</h5>
                             </div>
                             <form action="">
-                                <textarea placeholder="Your Comment"></textarea>
+                                <textarea placeholder="Hãy viết bình luận vào đây....."></textarea>
                                 <button type="submit"><i class="fa fa-location-arrow"></i> Gửi</button>
                             </form>
                         </div>
@@ -211,7 +211,7 @@
             <div class="h-100 d-flex align-items-center justify-content-center">
                 <div class="search-close-switch"><i class="icon_close"></i></div>
                 <form class="search-model-form">
-                    <input type="text" id="search-input" placeholder="Search here.....">
+                    <input type="text" id="search-input" placeholder="nhập tên phim muốn tìm.....">
                 </form>
             </div>
         </div>
@@ -263,6 +263,7 @@
     import { displayDetailMovie } from './admin/adminjs/movie-management.js';
     import {   loadMovies } from './admin/adminjs/movie-management.js';
     import {   displaySidebarMovies } from './admin/adminjs/movie-management.js';
+    import { getpositionFromId } from './admin/adminjs/movie-management.js';
     function getEncodedIdFromURL() {
         const params = new URLSearchParams(window.location.search);
         return params.get('id');
@@ -283,12 +284,60 @@
         }
 
         const watchNowBtn = document.getElementById('watchNowBtn');
+        const position = await getpositionFromId(encodedMovieId);
+
         if (watchNowBtn && encodedMovieId) {
-            watchNowBtn.addEventListener('click', () => {
-                // Chuyển hướng sang trang watching.html với movieId trong URL
-                window.location.href = `anime-watching.html?movieId=${encodedMovieId}&position=${0}`;
+            watchNowBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                if (position > 0) {
+                    // Hiển thị modal nếu có position > 0
+                    const modal = document.getElementById('watch-modal');
+                    const modalMessage = modal.querySelector('.modal-message');
+                    modalMessage.textContent = `Bạn muốn tiếp tục xem từ ${formatDuration(position)}?`;
+                    modal.style.display = 'block';
+
+                    // Xử lý nút đóng (X)
+                    const closeBtn = modal.querySelector('.close-modal');
+                    closeBtn.onclick = function() {
+                        modal.style.display = 'none';
+                    };
+
+                    // Xử lý nút xem lại từ đầu
+                    const restartBtn = modal.querySelector('.restart-btn');
+                    restartBtn.onclick = function() {
+                        window.location.href = `anime-watching.html?movieId=${encodedMovieId}&position=0`;
+                    };
+
+                    // Xử lý nút xem tiếp
+                    const continueBtn = modal.querySelector('.continue-btn');
+                    continueBtn.onclick = function() {
+                        window.location.href = `anime-watching.html?movieId=${encodedMovieId}&position=${position}`;
+                    };
+
+                    // Đóng modal khi click bên ngoài
+                    window.onclick = function(event) {
+                        if (event.target == modal) {
+                            modal.style.display = 'none';
+                        }
+                    };
+                } else {
+                    window.location.href = `anime-watching.html?movieId=${encodedMovieId}&position=0`;
+                }
             });
         }
+            function formatDuration(seconds) {
+                const hours = Math.floor(seconds / 3600);
+                const minutes = Math.floor((seconds % 3600) / 60);
+                const remainingSeconds = seconds % 60;
+
+                let result = '';
+                if (hours > 0) {
+                    result += `${hours}:`;
+                }
+                result += `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+                return result;
+            }
     };
 </script>
 <script type="module">
@@ -321,6 +370,19 @@
 </script>
 <script src="admin/adminjs/categories-management.js" type="module"></script>
         
+
+<div id="watch-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h4>Tiếp tục xem phim?</h4>
+        <p class="modal-message"></p>
+        <div class="modal-buttons">
+            <button class="restart-btn">Xem lại từ đầu</button>
+            <button class="continue-btn">Xem tiếp</button>
+        </div>
+    </div>
+</div>
+
     </body>
 
     </html>

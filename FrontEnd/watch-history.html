@@ -111,7 +111,7 @@
                 <div class="product__sidebar">
                     <div class="product__sidebar__view">
                         <div class="section-title">
-                            <h5>Top Views</h5>
+                            <h5>Xem nhiều nhất</h5>
                         </div>
                         <div class="filter__gallery" id="sidebarMovies"></div>
                     </div>
@@ -159,7 +159,7 @@
     <div class="h-100 d-flex align-items-center justify-content-center">
         <div class="search-close-switch"><i class="icon_close"></i></div>
         <form class="search-model-form">
-            <input type="text" id="search-input" placeholder="Search here.....">
+            <input type="text" id="search-input" placeholder="nhập tên phim muốn tìm.....">
         </form>
     </div>
 </div>
@@ -235,6 +235,20 @@
 <script src="js/main.js"></script>
 <script src="admin/adminjs/movie-management.js" type="module"></script>
 <script src="admin/adminjs/categories-management.js" type="module"></script>
+
+<!--Hiển thị thông báo xem tiếp -->
+<div id="watch-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h4>Tiếp tục xem phim?</h4>
+        <p class="modal-message"></p>
+        <div class="modal-buttons">
+            <button class="restart-btn">Xem lại từ đầu</button>
+            <button class="continue-btn">Xem tiếp</button>
+        </div>
+    </div>
+</div>
+
 
 </body>
 

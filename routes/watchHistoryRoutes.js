@@ -5,6 +5,9 @@ const watchHistoryController = require('../controllers/watchHistoryController');
 // Lấy lịch sử xem của người dùng
 router.get('/:username', watchHistoryController.getWatchHistory);
 
+// Lấy lịch sử xem của người dùng
+router.get('/:username/:id_movie', watchHistoryController.getPosition);
+
 // Thêm phim vào lịch sử xem
 router.post('/', watchHistoryController.saveWatchHistory);
 
