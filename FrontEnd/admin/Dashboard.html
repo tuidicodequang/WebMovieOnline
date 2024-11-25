@@ -1,94 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="adminStyleCss/styles.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Quản lý thể loại phim</title>
+        <link rel="stylesheet" href="adminStyleCss/styles.css">
+    </head>
 <body>
 
     <div class="container">
-        <!-- Sidebar -->
         <div class="sidebar">
-            <h2>Movie Dashboard</h2>
+            <h2>Trang Quản Lý</h2>
             <a href="Dashboard.html">Dashboard</a>
-            <a href="movies.html">Movies</a>
-            <a href="categories.html">Categories</a>
-            <a href="actors.html">Actors & Directors</a>
-            <a href="users.html">Users</a>
-            <a href="reviews.html" class="active">Reviews</a>
-            <a href="#" id="logoutButton">Logout</a>
-
+            <a href="movies.html">Quản lý phim</a>
+            <a href="categories.html" class="active">Danh sách thể loại</a>
+            <a href="actors.html">Đạo diễn & diễn viên</a>
+            <a href="users.html">Người dùng</a>
+            <a href="reviews.html">Bình luận</a>
+            <a href="#" id="logoutButton">Đăng xuất</a>
         </div>
 
         <!-- Main Content -->
         <div class="main">
             <div class="header">
-                <h1>Analytics</h1>
+                <h1>Phân tích</h1>
                 <img src="https://icons.veryicon.com/png/o/miscellaneous/yellow-simple-icon/avatar-18.png" alt="User Avatar">
             </div>
 
             <div class="stats">
                 <div class="card">
-                    <h3>Top Movies</h3>
-                    <p>12,500 Views</p>
+                    <h3>Tổng lượt xem</h3>
+                    <p>140,000 Lượt</p>
                 </div>
                 <div class="card">
                     <h3>Users</h3>
-                    <p>3,450 Registered</p>
+                    <p>3,450 Đã đăng ký</p>
                 </div>
                 <div class="card">
-                    <h3>New Reviews</h3>
-                    <p>780 This Week</p>
+                    <h3>Đăng ký mới</h3>
+                    <p>780 Tuần này</p>
                 </div>
                 <div class="card">
-                    <h3>Revenue</h3>
-                    <p>$25,600</p>
+                    <h3>Tổng lượt đánh giá</h3>
+                    <p>10000 Lượt</p>
                 </div>
             </div>
 
             <div class="chart">
                 <div>
-                    <h3>Movie Views</h3>
-                    <p>Placeholder for views chart</p>
+                    <h3>Phim nhiều lượt xem nhất</h3>
+                    <p>12,500 Lượt</p>
                 </div>
                 <div>
-                    <h3>User Signups</h3>
-                    <p>Placeholder for user chart</p>
+                    <h3>Truy cập cùng lúc</h3>
+                    <p>1,000 Lượt</p>
                 </div>
             </div>
 
             <div class="products">
-                <h3>Popular Movies</h3>
+                <h3>Phim phổ biến</h3>
                 <table>
                     <thead>
                         <tr>
-                            <th>Movie</th>
-                            <th>Category</th>
-                            <th>Views</th>
-                            <th>Rating</th>
+                            <th>Phim</th>
+                            <th>Thể loại</th>
+                            <th>Lượt xem</th>
+                            <th>Đánh giá (Điểm)</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>Avengers: Endgame</td>
-                            <td>Action</td>
-                            <td>1,500,000</td>
-                            <td>9.5</td>
+                            <td>Hành động, siêu anh hùng, khoa học viễn tưởng</td>
+                            <td>15,000</td>
+                            <td>5.0</td>
                         </tr>
                         <tr>
-                            <td>The Lion King</td>
-                            <td>Animation</td>
-                            <td>980,000</td>
-                            <td>8.9</td>
+                            <td>Doremon</td>
+                            <td>Hoạt hình, khoa học viễn tưởng, hài</td>
+                            <td>9,000</td>
+                            <td>5.0</td>
                         </tr>
                         <tr>
-                            <td>Inception</td>
-                            <td>Sci-Fi</td>
-                            <td>1,200,000</td>
-                            <td>9.0</td>
+                            <td>Bố già</td>
+                            <td>Tình cảm, gia đình, tâm lý</td>
+                            <td>1,200</td>
+                            <td>4.0</td>
                         </tr>
                     </tbody>
                 </table>

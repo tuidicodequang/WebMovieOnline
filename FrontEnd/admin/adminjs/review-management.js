@@ -1,13 +1,12 @@
 import { encodeId,decodeId} from './Crypto.js';
 
 export async function loadMovieReviews(movieId) {
-    
+    const token = localStorage.getItem('token');
     try {
-        const token = localStorage.getItem('token');
         const response = await fetch(`/reviews/${movieId}`, {
             method: 'GET',
             headers: {
-                'Authorization': token,
+              
                 'Content-Type': 'application/json'
             }
         });

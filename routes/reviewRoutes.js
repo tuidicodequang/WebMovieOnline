@@ -9,7 +9,7 @@ router.get('/:movie_id', reviewController.getReviews);
 router.get('/',reviewController.getAllReviews);
 
 // Thêm đánh giá mới
-router.post('/', reviewController.createReview);
+router.post('/',reviewController.createReview);
 
 // Xóa đánh giá
 router.delete('/:review_id', reviewController.deleteReview);

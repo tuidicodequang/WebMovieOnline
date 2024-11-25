@@ -264,12 +264,14 @@
     import {   loadMovies } from './admin/adminjs/movie-management.js';
     import {   displaySidebarMovies } from './admin/adminjs/movie-management.js';
     import { getpositionFromId } from './admin/adminjs/movie-management.js';
+    import {checkAuth, makepopup }             from'./admin/adminjs/auth.js'
     function getEncodedIdFromURL() {
         const params = new URLSearchParams(window.location.search);
         return params.get('id');
     }
-
+    const token=localStorage.getItem('token');
     window.onload = async () => {
+    
         const encodedMovieId = getEncodedIdFromURL();
         if (encodedMovieId) {
             const movie = await loadMovieFormId(encodedMovieId);
@@ -282,12 +284,21 @@
         } else {
             alert("Movie ID không hợp lệ");
         }
-
+      
         const watchNowBtn = document.getElementById('watchNowBtn');
-        const position = await getpositionFromId(encodedMovieId);
+        let position;
+        if (token!=null)
+        {
+           position = await getpositionFromId(encodedMovieId);
+        }
 
         if (watchNowBtn && encodedMovieId) {
             watchNowBtn.addEventListener('click', (e) => {
+                if (!token)
+            {
+                makepopup();
+                return;
+            }
                 e.preventDefault();
                 
                 if (position > 0) {

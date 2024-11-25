@@ -10,6 +10,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql": "^2.18.1",
     "mysql2": "^3.11.3",
+    "nodemailer": "^6.9.16",
     "sequelize": "^6.37.3",
     "slugify": "^1.6.6"
   }

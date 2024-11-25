@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Movies</title>
+    <title>Quản lý phim</title>
     <link rel="stylesheet" href="adminStyleCss/styles.css">
 </head>
 <body>
 
     <div class="container">
         <div class="sidebar">
-            <h2>Movie Dashboard</h2>
+            <h2>Trang Quản Lý</h2>
             <a href="Dashboard.html">Dashboard</a>
-            <a href="movies.html" class="active">Movies</a>
-            <a href="categories.html">Categories</a>
-            <a href="actors.html">Actors & Directors</a>
-            <a href="users.html">Users</a>
-            <a href="reviews.html">Reviews</a>
-            <a href="#" id="logoutButton">Logout</a>
+            <a href="movies.html" class="active">Quản lý phim</a>
+            <a href="categories.html">Danh sách thể loại</a>
+            <a href="actors.html">Đạo diễn & diễn viên</a>
+            <a href="users.html">Người dùng</a>
+            <a href="reviews.html">Bình luận</a>
+            <a href="#" id="logoutButton">Đăng xuất</a>
         </div>
 
         <div class="main">
@@ -44,11 +44,11 @@
                     <thead>
                         <tr>
                             <th>ID</th> 
-                            <th>Title</th> 
-                            <th>Rating</th> 
-                            <th>Movie Length (minutes)</th> 
-                            <th>Category</th> 
-                            <th>Actions</th>
+                            <th>Tiêu đề</th> 
+                            <th>Đánh giá</th> 
+                            <th>Độ dài phim (phút)</th> 
+                            <th>Thể loại</th> 
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody id="movies-list">

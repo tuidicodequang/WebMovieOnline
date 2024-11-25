@@ -17,7 +17,7 @@ async function loadCategories() {
         const response = await fetch('/categories', { 
             method: 'GET',
             headers: {
-                'Authorization': token,
+              
                 'Content-Type': 'application/json'
             }
         });
@@ -41,16 +41,10 @@ async function loadCategories() {
 
 export async function loadMovies() {
     try {
-        console.log('Bắt đầu tải dữ liệu phim...');
-        const token = localStorage.getItem('token');
-        if (!token) {
-            throw new Error('Không tìm thấy token xác thực');
-        }
-    
         const response = await fetch('/movies', {
             method: 'GET',
             headers: {
-                'Authorization': token,
+       
                 'Content-Type': 'application/json'
             }
         });
@@ -324,7 +318,6 @@ export async function displayDetailMovie(movie) {
     // Description
     document.querySelector('.anime__details__text p').textContent = movie.description || '';
 
-    // Detailed information (Type, Studios, Date aired, etc.)
     const detailsListLeft = document.querySelector('.anime__details__widget .col-lg-6.col-md-6 ul:nth-child(1)');
     detailsListLeft.innerHTML = `
         <li><span>Loại phim:</span> ${movie.type || 'Phim lẻ'}</li>

@@ -3,7 +3,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const db = require('../config/db');
 require('dotenv').config();
-
+const nodemailer = require('nodemailer'); 
+const crypto = require('crypto');
 
 // Đăng ký người dùng
 exports.register = async (req, res) => {
@@ -161,7 +162,6 @@ exports.deleteUser = async (req, res) => {
 
 exports.changePassword = async (req, res) => {
     const { username, currentPassword, newPassword } = req.body;
-    console.log (username,currentPassword,newPassword)
     try {
         // Kiểm tra người dùng tồn tại
         const [existingUser] = await db.promise().query('SELECT * FROM Users WHERE username = ?', [username]);
@@ -193,6 +193,77 @@ exports.changePassword = async (req, res) => {
         return res.status(200).json({
             success: true,
             message: 'Cập nhật mật khẩu thành công'
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: 'Đã có lỗi xảy ra, vui lòng thử lại sau'
+        });
+    }
+};
+
+
+let code;
+exports.forgetPassword = async (req, res) => {
+    const { email, verificationCode } = req.body;
+    try {
+        // 1. Kiểm tra email tồn tại
+        const [existingUser] = await db.promise().query('SELECT * FROM Users WHERE username = ?', [email]);
+        if (existingUser.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: ' Người dùng không tồn tại'
+            });
+        }
+
+        const transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: process.env.EMAIL,
+                pass: process.env.EMAIL_PASSWORD
+            }
+        });
+        // 2. Nếu chưa có mã xác thực, tạo và gửi mã
+        if (!verificationCode) {
+            code = crypto.randomInt(100000, 999999).toString(); // Tạo mã xác thực
+            // Gửi email chứa mã xác thực
+            await transporter.sendMail({
+                from: process.env.EMAIL,
+                to: email,
+                subject: 'Mã xác thực đặt lại mật khẩu',
+                text: `Mã xác thực của bạn là: ${code}`
+            });
+
+            return res.status(200).json({
+                success: true,
+                message: 'Mã xác thực đã được gửi đến email của bạn'
+            });
+        }
+
+        // 3. Kiểm tra mã xác thực và đặt lại mật khẩu
+        if (verificationCode != code) {
+            return res.status(401).json({
+                success: false,
+                message: 'Mã xác thực không đúng'
+            });
+        }
+
+       newPassword=crypto.randomInt(10000000, 99999999).toString();
+
+        // 5. Cập nhật mật khẩu mới
+        await transporter.sendMail({
+            from: process.env.EMAIL,
+            to: email,
+            subject: 'Đặt lại mật khẩu mới cho tài khoản',
+            text: `Mật khẩu mới của bạn là: ${newPassword}`
+        });
+        const hashedPassword = bcrypt.hashSync(newPassword, 10);
+        await db.promise().query('UPDATE Users SET password = ? WHERE username = ?', [hashedPassword, email]);
+
+        return res.status(200).json({
+            success: true,
+            message: 'Mật khẩu của bạn đã được đặt lại thành công'
         });
     } catch (error) {
         console.error(error);

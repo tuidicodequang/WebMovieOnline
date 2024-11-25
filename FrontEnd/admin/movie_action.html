@@ -13,18 +13,18 @@
     </div>
     <div class="container">
         <div class="form-container">
-            <h2>Add Movie</h2>
+            <h2>Thêm Phim</h2>
             <form id="addMovieForm">
-                <label for="id">Movie ID</label>
-                <input type="number" id="id" name="id" disabled placeholder="Auto-generated">
+                <label for="id">ID Phim</label>
+                <input type="number" id="id" name="id" disabled placeholder="id phim">
     
-                <label for="title">Title</label>
+                <label for="title">Tiêu đề</label>
                 <input type="text" id="title" name="title" maxlength="255" required>
     
-                <label for="release_date">Release Date</label>
+                <label for="release_date">Ngày khởi chiếu</label>
                 <input type="date" id="release_date" name="release_date">
     
-                <label for="description">Description</label>
+                <label for="description">Mô tả</label>
                 <textarea id="description" name="description" rows="5"></textarea>
     
                 <label for="poster">Poster URL</label>
@@ -33,18 +33,18 @@
                 <label for="video_url">Video URL</label>
                 <input type="url" id="video_url" name="video_url" maxlength="255">
     
-                <label for="avg_rating">Average Rating</label>
+                <label for="avg_rating">Điểm trung bình</label>
                 <input type="number" id="avg_rating" name="avg_rating" step="0.01" min="0" max="5" value="0.00">
     
-                <label for="movie_length">Movie Length (minutes)</label>
+                <label for="movie_length">Thời lượng  (phút)</label>
                 <input type="number" id="movie_length" name="movie_length" min="0">
     
-                <label for="created_at">Created At</label>
-                <input type="text" id="created_at" name="created_at" disabled placeholder="Auto-filled with current timestamp">
+                <label for="created_at">Ngày khởi tạo</label>
+                <input type="text" id="created_at" name="created_at" disabled placeholder="Hôm nay">
                 
-                <label for="categories">Categories</label>
+                <label for="categories">Thể loại</label>
                 <div style="display: flex; align-items: center;">
-                    <input type="text" id="categorySearch" placeholder="Add categories...">
+                    <input type="text" id="categorySearch" placeholder="Thêm...">
                     <button type="button" class="ellipsis-button" onclick="toggleCategoryDropdown()">...</button>
                 </div>
                 <div id="categoryResults" class="dropdown"></div>
@@ -52,23 +52,23 @@
 
 
 
-                <label for="actors">Actors</label>
+                <label for="actors">Diễn viên</label>
                 <div style="display: flex; align-items: center;">
-                    <input type="text" id="actorSearch" placeholder="Add actors...">
+                    <input type="text" id="actorSearch" placeholder="Thêm...">
                     <button type="button" class="ellipsis-button" onclick="toggleActorDropdown()">...</button>
                 </div>
                 <div id="actorResults" class="dropdown"></div>
                 <div id="selectedActors" class="tags"></div>
     
-                <label for="directors">Directors</label>
+                <label for="directors">Đạo diễn</label>
                 <div style="display: flex; align-items: center;">
-                    <input type="text" id="directorSearch" placeholder="Add directors...">
+                    <input type="text" id="directorSearch" placeholder="Thêm...">
                     <button type="button" class="ellipsis-button" onclick="toggleDirectorDropdown()">...</button>
                 </div>
                 <div id="directorResults" class="dropdown"></div>
                 <div id="selectedDirectors" class="tags"></div>
                 
-                <button type="submit" class="submit-btn" id="submitMovie">Add Movie</button>
+                <button type="submit" class="submit-btn" id="submitMovie">Thêm phim</button>
             </form>
         </div>
         <div class="reviews-panel">

@@ -1,16 +1,10 @@
 import { encodeId,decodeId} from './Crypto.js';
 import {  displaySidebarMovies} from'./movie-management.js';
 export async function loadCategories() {
-    try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            throw new Error('Không tìm thấy token xác thực');
-        }
-        
+    try {   
         const response = await fetch('/categories', { 
             method: 'GET',
             headers: {
-                'Authorization': token,
                 'Content-Type': 'application/json'
             }
         });

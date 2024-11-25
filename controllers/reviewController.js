@@ -43,7 +43,7 @@ exports.createReview = (req, res) => {
         return res.status(400).json({ error: "Thiếu thông tin bắt buộc" });
     }
 
-    // Trước tiên, lấy user_id từ username
+   // lấy user_id từ username
     const getUserIdQuery = "SELECT user_id FROM Users WHERE username = ?";
     db.query(getUserIdQuery, [username], (err, userResult) => {
         if (err) {

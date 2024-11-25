@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         isEditMode = true;
         movieId = urlParams.get('id');
         await loadMovieData(movieId);
-        submitButton.textContent = 'Update Movie';
+        submitButton.textContent = 'Cập nhật phim';
         // Cập nhật tiêu đề form
-        document.querySelector('h2').textContent = 'Update Movie';
+        document.querySelector('h2').textContent = 'Cập nhật phim';
     }
 
     // Load initial data

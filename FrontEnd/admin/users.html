@@ -10,31 +10,31 @@
 
     <div class="container">
         <div class="sidebar">
-            <h2>Movie Dashboard</h2>
+            <h2>Trang Quản Lý</h2>
             <a href="Dashboard.html">Dashboard</a>
-            <a href="movies.html">Movies</a>
-            <a href="categories.html">Categories</a>
-            <a href="actors.html">Actors & Directors</a>
-            <a href="users.html" class="active">Users</a>
-            <a href="reviews.html">Reviews</a>
-            <a href="#" id="logoutButton">Logout</a>
+            <a href="movies.html">Quản lý phim</a>
+            <a href="categories.html">Danh sách thể loại</a>
+            <a href="actors.html">Đạo diễn & diễn viên</a>
+            <a href="users.html" class="active">Người dùng</a>
+            <a href="reviews.html">Bình luận</a>
+            <a href="#" id="logoutButton">Đăng xuất</a>
         </div>
 
         <div class="main">
             <div class="header">
-                <h1>Manage Users</h1>
+                <h1>Quản lý người dùng</h1>
                 <img src="https://icons.veryicon.com/png/o/miscellaneous/yellow-simple-icon/avatar-18.png" alt="User Avatar">
             </div>
             <div class="products">
-                <h3>User List</h3>
+                <h3>Danh sách người dùng</h3>
                 <table>
                     <thead>
                         <tr>
                              <th>id</th>
-                            <th>Username</th>
-                            <th>Role</th>
-                            <th>detail</th>
-                            <th>Action</th>
+                            <th>Tên người dùng</th>
+                            <th>vai trò</th>
+                            <th>Chi tiết</th>
+                            <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody id="user-list">
@@ -44,13 +44,13 @@
             </div>
 
             <div class="add-user">
-                <h3>Add New User</h3>
+                <h3>Thêm người dùng mới</h3>
                 <form id="add-user-form">
-                    <input type="text" id="username" placeholder="Username" required>
-                    <input type="password" id="password" placeholder="password" required>
-                    <input type="password" id="comfirm_password" placeholder="Confirm password" required>
-                    <input type="text" id="name" placeholder="name" required>
-                    <button type="submit">Add User</button>
+                    <input type="text" id="username" placeholder="Tên đăng nhập" required>
+                    <input type="password" id="password" placeholder="Mật khẩu" required>
+                    <input type="password" id="comfirm_password" placeholder="Xác nhận mật khẩu" required>
+                    <input type="text" id="name" placeholder="Tên của bạn" required>
+                    <button type="submit">Thêm</button>
                 </form>
             </div>
         </div>
